@@ -82,7 +82,7 @@ Deve ter instalado os seguintes programas:
   install.packages('viridis')
 ```
 
-## Scripts
+## _Scripts_
 - **map.py**: Script para mapear leituras non-singletons e non-chimeras (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
 - **rename_silva.py**: Script para renomear os cabeçalhos do arquivo FASTA do banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ para a geração de ASVs.
 - **reverse_complement.py**: Script para obter a reversa-complementar de um _primer_.
@@ -90,15 +90,13 @@ Deve ter instalado os seguintes programas:
 - **get_abundances_table_asv.py**: Script para obter a tabela de abundâncias dos ASVs com dados taxonômicos.
 - **get_abundances_by_tax.py**: Script para obter tabelas de dados para gerar Heatmaps, Diagramas de Venn e Bar-plots.
 
-## Pipelines
+## _Pipelines_
 
-### Pipeline para clusterização de OTUs
+### _Pipeline_ para clusterização de OTUs
+- **amplicon_pipeline_otu.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
-### Pipeline para geração de ASVs
-
-
-
-
+### _Pipeline_ para geração de ASVs
+- **amplicon_pipeline_asv.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
 ## Author
 
