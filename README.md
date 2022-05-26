@@ -2,7 +2,7 @@ Curso de treinamento para _amplicon_ 16S rRNA
 ======================
 [![License](https://poser.pugx.org/badges/poser/license.svg)](./LICENSE)
 
-Curso para treinamento em _amplicon_ 16S rRNA
+Curso de treinamento de _amplicon_ 16S rRNA utilizando as abordabens de agrupamento por OTUs (Operational Taxonomic Unit) e geração de ASVs (Amplicon Sequence Variant).
 
 ## Recursos
 
@@ -44,7 +44,7 @@ Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/d
 ```
 
 ### Formatar o banco de dados SILVA
-O banco de dados SILVA não pode ser utilizado diretamente para o _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma. Também pode ser formatado a versão _small_ do bando de dados.
+O banco de dados SILVA não pode ser utilizado diretamente para o _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma. Também pode ser formatado a versão _small_ do banco de dados.
 
 ```sh
   python3 rename_silva.py SILVA_138.1_SSURef_NR99_tax_silva.fasta
@@ -81,10 +81,10 @@ Deve ter instalado os seguintes programas:
 
 ## Scripts
 - **map.py**: Script para mapear leituras non-singletons e non-chimeras (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
-- **rename_silva.py**: Script para renomear os cabeçalhos do arquivo FASTA do bando de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ para a geração de ASVs.
+- **rename_silva.py**: Script para renomear os cabeçalhos do arquivo FASTA do banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ para a geração de ASVs.
 - **reverse_complement.py**: Script para obter a reversa-complementar de um _primer_.
-- **get_abundances_table_otu.py**: Script para obter a tabela de adundâncias dos OTUs com dados taxonômicos.
-- **get_abundances_table_asv.py**: Script para obter a tabela de adundâncias dos ASVs com dados taxonômicos.
+- **get_abundances_table_otu.py**: Script para obter a tabela de abundâncias dos OTUs com dados taxonômicos.
+- **get_abundances_table_asv.py**: Script para obter a tabela de abundâncias dos ASVs com dados taxonômicos.
 - **get_abundances_by_tax.py**: Script para obter tabelas de dados para gerar Heatmaps, Diagramas de Venn e Bar-plots.
 
 ## Author
