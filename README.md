@@ -55,10 +55,10 @@ Deve ter instalado os seguintes programas:
 ### Bibliotecas Python
 
 ```sh
-  $ sudo pip3 install pandas
-  $ sudo pip3 install biopython
-  $ sudo pip3 install colorama
-  $ sudo pip3 install cutadapt
+  sudo pip3 install pandas
+  sudo pip3 install biopython
+  sudo pip3 install colorama
+  sudo pip3 install cutadapt
 ```
 
 ### Bibliotecas R
