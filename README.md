@@ -14,6 +14,9 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
     - [Bibliotecas Python](#bibliotecas-python)
     - [Bibliotecas R](#bibliotecas-r)
 - [Scripts](#scripts)
+- [Pipelines](#pipelines)
+    - [Pipeline para clusterização de OTUs](#pipeline-para-clusterização-de-otus)
+    - [Pipeline para geração de ASVs](#pipeline-para-geração-de-asvs)
 - [Author](#author)
 - [Organization](#organization)
 - [License](#license)
@@ -86,6 +89,16 @@ Deve ter instalado os seguintes programas:
 - **get_abundances_table_otu.py**: Script para obter a tabela de abundâncias dos OTUs com dados taxonômicos.
 - **get_abundances_table_asv.py**: Script para obter a tabela de abundâncias dos ASVs com dados taxonômicos.
 - **get_abundances_by_tax.py**: Script para obter tabelas de dados para gerar Heatmaps, Diagramas de Venn e Bar-plots.
+
+## Pipelines
+
+### Pipeline para clusterização de OTUs
+
+### Pipeline para geração de ASVs
+
+
+
+
 
 ## Author
 
