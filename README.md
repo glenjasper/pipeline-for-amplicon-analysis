@@ -22,23 +22,24 @@ Curso para treinamento em _amplicon_ 16S rRNA
 
 ## Banco de dados SILVA
 Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports). Pode-se baixar e criar os binários com o seguinte comando:
-```sh
-  $ wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
-  $ gzip -d SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
 
-  $ makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva.fasta \
-                -dbtype nucl \
-                -out silva_db
+```sh
+  wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
+  gzip -d SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
+
+  makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva.fasta \
+              -dbtype nucl \
+              -out silva_db
 ```
+
 **NOTA**: Para o treinamento podemo usar uma versão do banco de dados. Pode baixá-lo desde aqui ou criá-lo com o seguinte comando: 
 
 ```sh
-  $ wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
-  $ gzip -d SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
+  sed -n 1,1500032p SILVA_138.1_SSURef_NR99_tax_silva.fasta > SILVA_138.1_SSURef_NR99_tax_silva_small.fasta
 
-  $ makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva.fasta \
-                -dbtype nucl \
-                -out silva_db
+  makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva_small.fasta \
+              -dbtype nucl \
+              -out silva_db_small
 ```
 
 ## Pré-requisitos
