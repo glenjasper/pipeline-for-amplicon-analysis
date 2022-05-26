@@ -10,8 +10,7 @@ Curso para treinamento em _amplicon_ 16S rRNA
 - [Pré-requisitos](#pré-requisitos)
     - [Programas](#programas)
     - [Bibliotecas Python](#bibliotecas-python)
-- [Built With](#built-with)
-- [How To Use](#how-to-use)
+- [Scripts](#scripts)
 - [Author](#author)
 - [Organization](#organization)
 - [License](#license)
@@ -22,6 +21,8 @@ Curso para treinamento em _amplicon_ 16S rRNA
 ## Pré-requisitos
 ### Programas
 Deve ter instalado os seguintes programas:
+- [VSEARCH](https://github.com/torognes/vsearch)
+- [USEARCH 32-bit](https://drive5.com/usearch)
 - [R-4](https://cran.r-project.org)
 - [RStudio](https://www.rstudio.com/products/rstudio/download)
 - [Python 3](https://www.python.org)
@@ -35,6 +36,8 @@ Deve ter instalado os seguintes programas:
   $ sudo pip3 install colorama
   $ sudo pip3 install cutadapt
 ```
+## Scripts
+- 
 
 ## Author
 
