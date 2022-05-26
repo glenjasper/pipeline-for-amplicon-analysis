@@ -6,11 +6,8 @@ Curso para treinamento em _amplicon_ 16S rRNA
 
 ## Recursos
 
-- [Arquivos FASTQ](#Arquivos-FASTQ)
-    - [Python libraries](#python-libraries)
+- [Dados de treinamento](#Arquivos-FASTQ)
 - [Installation](#installation)
-    - [Clone](#clone)
-    - [Download](#download)
 - [Built With](#built-with)
 - [How To Use](#how-to-use)
 - [Author](#author)
@@ -22,5 +19,15 @@ Curso para treinamento em _amplicon_ 16S rRNA
 ## Arquivos-FASTQ
 **training-files.zip**: Arquivos de treinamento. Usaremos 4 tipo de amostras (BRS, BPA, BANHT e ENV), pode baixar os dados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
 
- 
- 
+
+
+## Author
+
+* [Glen Jasper](https://github.com/glenjasper)
+
+## Organization
+* [Molecular and Computational Biology of Fungi Laboratory](https://sites.icb.ufmg.br/lbmcf/index.html) (LBMCF, ICB - **UFMG**, Belo Horizonte, Brazil).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
