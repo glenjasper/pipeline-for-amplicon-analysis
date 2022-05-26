@@ -8,7 +8,7 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 
 - [Dados de treinamento](#arquivos-fastq)
 - [Banco de dados SILVA](#banco-de-dados-silva)
-    - [Formatar o banco de dados SILVA](#formatar-o-banco-de-dados-silva)
+    - [Formatação do banco de dados SILVA](#formatação-do-banco-de-dados-silva)
 - [Pré-requisitos](#pré-requisitos)
     - [Programas](#programas)
     - [Bibliotecas Python](#bibliotecas-python)
