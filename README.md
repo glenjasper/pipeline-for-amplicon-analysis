@@ -7,6 +7,7 @@ Curso para treinamento em _amplicon_ 16S rRNA
 ## Recursos
 
 - [Dados de treinamento](#arquivos-fastq)
+- [Banco de dados SILVA](#banco-de-dados-silva)
 - [Pré-requisitos](#pré-requisitos)
     - [Programas](#programas)
     - [Bibliotecas Python](#bibliotecas-python)
@@ -18,6 +19,27 @@ Curso para treinamento em _amplicon_ 16S rRNA
 
 ## Arquivos-FASTQ
 **training-files.zip**: Arquivos de treinamento. Usaremos 4 tipo de amostras (BRS, BPA, BANHT e ENV), pode baixar os dados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
+
+## Banco de dados SILVA
+Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports). Pode-se baixar e criar os binários com o seguinte comando:
+```sh
+  $ wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
+  $ gzip -d SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
+
+  $ makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva.fasta \
+                -dbtype nucl \
+                -out silva_db
+```
+**NOTA**: Para o treinamento podemo usar uma versão do banco de dados. Pode baixá-lo desde aqui ou criá-lo com o seguinte comando: 
+
+```sh
+  $ wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
+  $ gzip -d SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
+
+  $ makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva.fasta \
+                -dbtype nucl \
+                -out silva_db
+```
 
 ## Pré-requisitos
 ### Programas
