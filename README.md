@@ -10,6 +10,7 @@ Curso para treinamento em _amplicon_ 16S rRNA
 - [Pré-requisitos](#pré-requisitos)
     - [Programas](#programas)
     - [Bibliotecas Python](#bibliotecas-python)
+    - [Bibliotecas R](#bibliotecas-r)
 - [Scripts](#scripts)
 - [Author](#author)
 - [Organization](#organization)
@@ -36,6 +37,17 @@ Deve ter instalado os seguintes programas:
   $ sudo pip3 install colorama
   $ sudo pip3 install cutadapt
 ```
+
+### Bibliotecas R
+
+```sh
+  install.packages('ggplot2')
+  install.packages('heatmaply')
+  install.packages('dendextend')
+  install.packages('RColorBrewer')
+  install.packages('viridis')
+```
+
 ## Scripts
 - **map.py**: Script para mapear leituras non-singletons e non-chimeras (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
 - **rename_silva.py**: Script para renomear os cabeçalhos do arquivo FASTA do bando de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ para a geração de ASVs.
