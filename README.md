@@ -8,6 +8,7 @@ Curso para treinamento em _amplicon_ 16S rRNA
 
 - [Dados de treinamento](#arquivos-fastq)
 - [Banco de dados SILVA](#banco-de-dados-silva)
+    - [Formatar o banco de dados SILVA](#formatar-o-banco-de-dados-silva)
 - [Pré-requisitos](#pré-requisitos)
     - [Programas](#programas)
     - [Bibliotecas Python](#bibliotecas-python)
@@ -32,7 +33,7 @@ Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/d
               -out silva_db
 ```
 
-**NOTA**: Para o treinamento podemo usar uma versão do banco de dados. Pode baixá-lo desde aqui ou criá-lo com o seguinte comando: 
+**NOTA**: Para o treinamento podemo usar uma versão do banco de dados. Pode baixá-lo desde [aqui](https://drive.google.com/file/d/1N7PL1VVn6xOyYA2DVkwvs2Nkxh2Dio13/view?usp=sharing) ou criá-lo com o seguinte comando: 
 
 ```sh
   sed -n 1,1500032p SILVA_138.1_SSURef_NR99_tax_silva.fasta > SILVA_138.1_SSURef_NR99_tax_silva_small.fasta
@@ -40,6 +41,13 @@ Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/d
   makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva_small.fasta \
               -dbtype nucl \
               -out silva_db_small
+```
+
+### Formatar o banco de dados SILVA
+O banco de dados SILVA não pode ser utilizado diretamente para o _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma. Também pode ser formatado a versão _small_ do bando de dados.
+
+```sh
+  python3 rename_silva.py SILVA_138.1_SSURef_NR99_tax_silva.fasta
 ```
 
 ## Pré-requisitos
