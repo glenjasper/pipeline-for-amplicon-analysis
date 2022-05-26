@@ -43,7 +43,7 @@ Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/d
               -out silva_db_small
 ```
 
-### Formatar o banco de dados SILVA
+### Formatação do banco de dados SILVA
 O banco de dados SILVA não pode ser utilizado diretamente para o _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma. Também pode ser formatado a versão _small_ do banco de dados.
 
 ```sh
