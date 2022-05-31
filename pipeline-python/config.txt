@@ -1,0 +1,21 @@
+[PARAMETERS]
+# Paths
+samples_path = 
+database_path = 
+util_path = 
+output_path = 
+
+# Taxonomy database (file must be in database_path)
+database_fasta = 
+
+# Primers file (file must be in database_path)
+primers_file = 
+
+# Multiprocessing
+threads = 4
+
+# OS type (gnulinux: for GNU/Linux | win: for Windows)
+os_type = 
+
+# Python version (python3: for Python 3.x in GNU/Linux | python: for Python 3.x in Windows)
+python_version = 
