@@ -36,7 +36,7 @@ Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/d
               -out silva_db
 ```
 
-**NOTA**: Para o treinamento podemos usar uma versão _small_ do banco de dados. Pode baixá-lo desde [aqui](https://drive.google.com/file/d/1N7PL1VVn6xOyYA2DVkwvs2Nkxh2Dio13/view?usp=sharing) ou criá-lo com o seguinte comando: 
+> **NOTA**: Para o treinamento podemos usar uma versão _small_ do banco de dados. Pode baixá-lo desde [aqui](https://drive.google.com/file/d/1N7PL1VVn6xOyYA2DVkwvs2Nkxh2Dio13/view?usp=sharing) ou criá-lo com o seguinte comando: 
 
 ```sh
   sed -n 1,1500032p SILVA_138.1_SSURef_NR99_tax_silva.fasta > SILVA_138.1_SSURef_NR99_tax_silva_small.fasta
@@ -55,7 +55,7 @@ O banco de dados SILVA não pode ser utilizado diretamente no _pipeline_ com ASV
 
 ## Pré-requisitos
 ### Programas
-Os _pipelines_ precisam dos seguintes programas (ou linguagen de programação). Os pipelines em 
+Os _pipelines_ precisam dos seguintes programas (ou linguagen de programação). Para o [_pipeline_ em _Shell Script_](#pipeline-em-shell-script) estes requerimentos necessáriamente tem que estar instalados, no entanto, se utilizar o [_pipeline_ em _Python 3_](#pipeline-em-python-3), estes requerimentos já estão inclusos no código fonte (pasta **pipeline-python/utilities**).
 - [VSEARCH](https://github.com/torognes/vsearch)
 - [USEARCH 32-bit](https://drive5.com/usearch)
 - [NCBI BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
@@ -63,10 +63,10 @@ Os _pipelines_ precisam dos seguintes programas (ou linguagen de programação).
 - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc)
 - [Python 3](https://www.python.org)
 
-
+Para as análises estatísticas se precisam ter instalados:
 - [R-4](https://cran.r-project.org)
 - [RStudio](https://www.rstudio.com/products/rstudio/download)
-- 
+
 ### Bibliotecas Python
 
 ```sh
@@ -86,24 +86,30 @@ Os _pipelines_ precisam dos seguintes programas (ou linguagen de programação).
 ```
 
 ## _Scripts_
-- **map.py**: Script para mapear leituras non-singletons e non-chimeras (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
-- **rename_silva.py**: Script para renomear os cabeçalhos do arquivo FASTA do banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ para a geração de ASVs.
-- **reverse_complement.py**: Script para obter a reversa-complementar de um _primer_.
-- **get_abundances_table_otu.py**: Script para obter a tabela de abundâncias dos OTUs com dados taxonômicos.
-- **get_abundances_table_asv.py**: Script para obter a tabela de abundâncias dos ASVs com dados taxonômicos.
-- **get_abundances_by_tax.py**: Script para obter tabelas de dados para gerar Heatmaps, Diagramas de Venn e Bar-plots.
+- **util/map.py**: Script para mapear leituras non-singletons e non-chimeras (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
+- **util/rename_silva.py**: Script para renomear os cabeçalhos do arquivo FASTA do banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ para a geração de ASVs.
+- **util/reverse_complement.py**: Script para obter a reversa-complementar de um _primer_.
+- **util/get_abundances_table_otu.py**: Script para obter a tabela de abundâncias dos OTUs com dados taxonômicos.
+- **util/get_abundances_table_asv.py**: Script para obter a tabela de abundâncias dos ASVs com dados taxonômicos.
+- **util/get_abundances_by_tax.py**: Script para obter tabelas de dados para gerar Heatmaps, Diagramas de Venn e Bar-plots.
 
 ## _Pipelines_
 
 ### _Pipeline_ em _Python 3_
 
-#### _Pipeline_ para clusterização de OTUs
-- **amplicon_pipeline_otu.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
+#### _Pipeline_ com abordagem de OTUs
+- **pipeline-python/amplicon_pipeline_for_otu.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
-#### _Pipeline_ para geração de ASVs
-- **amplicon_pipeline_asv.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
+#### _Pipeline_ com abordagem de ASVs
+- **pipeline-python/amplicon_pipeline_for_asv.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
 ### _Pipeline_ em _Shell Script_
+
+#### _Pipeline_ para clusterização de OTUs
+- **pipeline-shell/amplicon_pipeline_for_otu.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
+
+#### _Pipeline_ para geração de ASVs
+- **pipeline-shell/amplicon_pipeline_for_asv.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
 ## Author
 
