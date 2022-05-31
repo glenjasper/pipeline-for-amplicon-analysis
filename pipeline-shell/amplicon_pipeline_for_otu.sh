@@ -5,12 +5,12 @@ database_path=
 util_path=
 output_path=
 
-# Primers
-primers_file=
+# Taxonomy database (files must be in database_path)
+database_fasta=
+database_bin=
 
-# Taxonomy database
-silva_db_fa=
-silva_db_bin=
+# Primers file (file must be in database_path)
+primers_file=
 
 # Threads
 THREADS=4
@@ -18,8 +18,9 @@ THREADS=4
 
 USEARCH=$(which usearch)
 VSEARCH=$(which vsearch)
-FASTQC=$(which fastqc)
 CUTADAPT=$(which cutadapt)
+BLASTN=$(which blastn)
+FASTQC=$(which fastqc)
 PYTHON=$(which python3)
 
 # Read primers
@@ -198,7 +199,7 @@ echo "Reference chimera detection"
 
 $VSEARCH --uchime_ref all.denovo.nonchimeras.fa \
          --threads $THREADS \
-         --db ${database_path}/${silva_db_fa} \
+         --db ${database_path}/${database_fasta} \
          --sizein \
          --sizeout \
          --fasta_width 0 \
@@ -253,12 +254,12 @@ echo "Number of OTUs:" $(grep -c "^>" all.otus.fa)
 echo ""
 echo "Identification of OTUs using BLAST"
 
-blastn -db ${database_path}/${silva_db_bin} \
-       -query all.otus.fa \
-       -perc_identity 97.0 \
-       -qcov_hsp_perc 90.0 \
-       -outfmt "6 qseqid sseqid stitle pident length mismatch gapopen qstart qend sstart send evalue bitscore qcovhsp qcovs" \
-       -out taxonomy.blast
+$BLASTN -db ${database_path}/${database_bin} \
+        -query all.otus.fa \
+        -perc_identity 97.0 \
+        -qcov_hsp_perc 90.0 \
+        -outfmt "6 qseqid sseqid stitle pident length mismatch gapopen qstart qend sstart send evalue bitscore qcovhsp qcovs" \
+        -out taxonomy.blast
 
 echo "Blast file: taxonomy.blast"
 

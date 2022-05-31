@@ -5,11 +5,11 @@ database_path=
 util_path=
 output_path=
 
-# Primers
-primers_file=
+# Taxonomy database (files must be in database_path)
+database_fasta=
 
-# Taxonomy database
-silva_db_fa=
+# Primers file (file must be in database_path)
+primers_file=
 
 # Threads
 THREADS=4
@@ -17,8 +17,8 @@ THREADS=4
 
 USEARCH=$(which usearch)
 VSEARCH=$(which vsearch)
-FASTQC=$(which fastqc)
 CUTADAPT=$(which cutadapt)
+FASTQC=$(which fastqc)
 PYTHON=$(which python3)
 
 # Read primers
@@ -161,7 +161,7 @@ echo ""
 echo "Assigning taxonomy"
 
 $USEARCH -sintax ASVs.fa \
-         -db ${database_path}/${silva_db_fa} \
+         -db ${database_path}/${database_fasta} \
          -tabbedout ASV_taxonomy.txt \
          -strand both \
          -sintax_cutoff 0.8
