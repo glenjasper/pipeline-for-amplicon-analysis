@@ -2,7 +2,7 @@ Curso de treinamento para _amplicon_ 16S rRNA
 ======================
 [![License](https://poser.pugx.org/badges/poser/license.svg)](./LICENSE)
 
-Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabens de agrupamento por OTUs (Operational Taxonomic Unit) e geração de ASVs (Amplicon Sequence Variant).
+Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabens de agrupamento por OTUs (Operational Taxonomic Unit) e geração de ASVs (Amplicon Sequence Variant). Se disponibilizam scripts em [_Python 3_](#pipeline-em-python-3) e [_Shell script_](#pipeline-em-shell-script), para ambas as abordagens.
 
 ## Recursos
 
@@ -47,7 +47,7 @@ Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/d
 ```
 
 ### Formatação do banco de dados SILVA
-O banco de dados SILVA não pode ser utilizado diretamente para o _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma. Também pode ser formatado a versão _small_ do banco de dados.
+O banco de dados SILVA não pode ser utilizado diretamente no _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma. Se estiver utilizando a versão _small_ do banco de dados, também deve ser formatado.
 
 ```sh
   python3 rename_silva.py SILVA_138.1_SSURef_NR99_tax_silva.fasta
@@ -55,21 +55,24 @@ O banco de dados SILVA não pode ser utilizado diretamente para o _pipeline_ com
 
 ## Pré-requisitos
 ### Programas
-Deve ter instalado os seguintes programas:
+Os _pipelines_ precisam dos seguintes programas (ou linguagen de programação). Os pipelines em 
 - [VSEARCH](https://github.com/torognes/vsearch)
 - [USEARCH 32-bit](https://drive5.com/usearch)
+- [NCBI BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
+- [Cutadapt](https://cutadapt.readthedocs.io/en/stable/installation.html)
+- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc)
+- [Python 3](https://www.python.org)
+
+
 - [R-4](https://cran.r-project.org)
 - [RStudio](https://www.rstudio.com/products/rstudio/download)
-- [Python 3](https://www.python.org)
-- [NCBI BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
-
+- 
 ### Bibliotecas Python
 
 ```sh
   sudo pip3 install pandas
   sudo pip3 install biopython
   sudo pip3 install colorama
-  sudo pip3 install cutadapt
 ```
 
 ### Bibliotecas R
@@ -92,11 +95,15 @@ Deve ter instalado os seguintes programas:
 
 ## _Pipelines_
 
-### _Pipeline_ para clusterização de OTUs
+### _Pipeline_ em _Python 3_
+
+#### _Pipeline_ para clusterização de OTUs
 - **amplicon_pipeline_otu.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
-### _Pipeline_ para geração de ASVs
+#### _Pipeline_ para geração de ASVs
 - **amplicon_pipeline_asv.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
+
+### _Pipeline_ em _Shell Script_
 
 ## Author
 
