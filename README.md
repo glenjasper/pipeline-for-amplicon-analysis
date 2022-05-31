@@ -25,7 +25,7 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 **training-files.zip**: Arquivos de treinamento. Usaremos 4 tipo de amostras (BRS, BPA, BANHT e ENV), pode baixar os dados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
 
 ## Banco de dados SILVA
-Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports). Pode-se baixar e criar os binários com o seguinte comando:
+Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports). Pode baixar o arquivo FASTA e criar os binários com os seguintes comandos:
 
 ```sh
   wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
@@ -36,7 +36,7 @@ Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/d
               -out silva_db
 ```
 
-> **NOTA**: Para o treinamento podemos usar uma versão _small_ do banco de dados. Pode baixá-lo desde [aqui](https://drive.google.com/file/d/1N7PL1VVn6xOyYA2DVkwvs2Nkxh2Dio13/view?usp=sharing) ou criá-lo com o seguinte comando: 
+> **NOTA**: Para o treinamento podemos usar uma versão _small_ do banco de dados. Pode baixá-lo desde [aqui](https://drive.google.com/file/d/1N7PL1VVn6xOyYA2DVkwvs2Nkxh2Dio13/view?usp=sharing) ou criá-lo com o seguintes comandos: 
 
 ```sh
   sed -n 1,1500032p SILVA_138.1_SSURef_NR99_tax_silva.fasta > SILVA_138.1_SSURef_NR99_tax_silva_small.fasta
@@ -97,19 +97,75 @@ Para as análises estatísticas se precisam ter instalados:
 
 ### _Pipeline_ em _Python 3_
 
+Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Estes _scripts_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. Estes _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/utilities** (arquivos: common.zip, gnulinux.zip e win.zip), os quais devem ser descompactados pelo usuário. O usuário também precisam configurar os parâmetros do arquivo **config.txt**.
+
 #### _Pipeline_ com abordagem de OTUs
 - **pipeline-python/amplicon_pipeline_for_otu.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
 #### _Pipeline_ com abordagem de ASVs
 - **pipeline-python/amplicon_pipeline_for_asv.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
+#### Exemplo de configuração do arquivo **config.txt**:
+
+```sh
+  [PARAMETERS]
+  # Paths
+  samples_path = D:\my_workstation\amplicon\dataset
+  database_path = D:\my_workstation\amplicon\database
+  util_path = D:\my_workstation\amplicon\util
+  output_path = D:\my_workstation\amplicon\results-otu
+
+  # Taxonomy database (files must be in database_path)
+  database_fasta = SILVA_138.1_SSURef_NR99_tax_silva.fasta
+  database_bin = silva_db
+
+  # Primers file (file must be in database_path)
+  primers_file = illumina.primers.fa
+
+  # Multiprocessing
+  threads = 4
+
+  # OS type (gnulinux: for GNU/Linux | win: for Windows)
+  os_type = win
+
+  # Python version (python3: for Python 3.x in GNU/Linux | python: for Python 3.x in Windows)
+  python_version = python
+```
+
+> **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
+
 ### _Pipeline_ em _Shell Script_
 
-#### _Pipeline_ para clusterização de OTUs
+Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medidas (OTUs e ASVs). Estes _scripts_ podem ser utilizados apenas na plataforma **GNU/Linux** (ou Mac OS). Cada _script_ apresenta internamente parâmetros a serem configurados pelo usuário. 
+
+#### _Pipeline_ com abordagem de OTUs
 - **pipeline-shell/amplicon_pipeline_for_otu.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
-#### _Pipeline_ para geração de ASVs
+#### _Pipeline_ com abordagem de ASVs
 - **pipeline-shell/amplicon_pipeline_for_asv.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
+
+
+#### Exemplo de configuração os parâmetros internos dos _scripts_:
+
+```sh
+  # Paths
+  samples_path=D:\my_workstation\amplicon\dataset
+  database_path=D:\my_workstation\amplicon\database
+  util_path=D:\my_workstation\amplicon\util
+  output_path=D:\my_workstation\amplicon\results-otu
+
+  # Taxonomy database (files must be in database_path)
+  database_fasta=SILVA_138.1_SSURef_NR99_tax_silva.fasta
+  database_bin=silva_db
+
+  # Primers file (file must be in database_path)
+  primers_file=illumina.primers.fa
+
+  # Threads
+  THREADS=4
+```
+
+> **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
 
 ## Author
 
