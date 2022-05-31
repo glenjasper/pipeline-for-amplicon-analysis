@@ -97,7 +97,7 @@ Para as análises estatísticas se precisam ter instalados:
 
 ### _Pipeline_ em _Python 3_
 
-Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Estes _scripts_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. Estes _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/utilities** (arquivos: common.zip, gnulinux.zip e win.zip), os quais devem ser descompactados pelo usuário. O usuário também precisam configurar os parâmetros do arquivo **config.txt**.
+Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Estes _scripts_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. Estes _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/utilities** (arquivos: _common.zip_, _gnulinux.zip_ e _win.zip_), os quais devem ser descompactados pelo usuário. O usuário também precisa configurar os parâmetros do arquivo **config.txt**.
 
 #### _Pipeline_ com abordagem de OTUs
 - **pipeline-python/amplicon_pipeline_for_otu.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
