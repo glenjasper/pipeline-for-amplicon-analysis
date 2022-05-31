@@ -6,7 +6,7 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 
 ## Recursos
 
-- [Dados de treinamento](#arquivos-fastq)
+- [Dados de treinamento](#dados-de-treinamento)
 - [Banco de dados SILVA](#banco-de-dados-silva)
     - [Formatação do banco de dados SILVA](#formatação-do-banco-de-dados-silva)
 - [Pré-requisitos](#pré-requisitos)
@@ -21,8 +21,8 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 - [Organization](#organization)
 - [License](#license)
 
-## Arquivos-FASTQ
-**training-files.zip**: Arquivos de treinamento. Usaremos 4 tipo de amostras (BRS, BPA, BANHT e ENV), pode baixar os dados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
+## Dados de treinamento
+**training-files.zip**: Arquivos _pair-end_ FASTQ de treinamento. Neste treinamento utilizaremos dados de 4 tipo de amostras (BRS, BPA, BANHT e ENV), podem ser baixados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
 
 ## Banco de dados SILVA
 Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports). Pode baixar o arquivo FASTA e criar os binários com os seguintes comandos:
