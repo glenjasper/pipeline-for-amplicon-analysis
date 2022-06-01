@@ -137,18 +137,20 @@ Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas 
   # Python version (python3: for Python 3.x in GNU/Linux | python: for Python 3.x in Windows)
   python_version = python
 ```
-| Parameter      | Description |
-| -------------- | ----------- |
+Descrição dos parâmetros:
+
+| Parameter          | Description |
+| ------------------ | ----------- |
 | **samples_path**   | Caminho absoluto da pasta que contem os arquivos FASTQ |
-| _database_path_  | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários) |
-| util_path      | Caminho absoluto da pasta que contem os _scripts_ utilitários |
-| output_path    | Caminho absoluto da pasta de saída |
-| database_fasta | Nome do arquivo FASTA do banco de dados SILVA |
-| database_bin   | Prefixo dos arquivos binários do banco de dados SILVA |
-| primers_file   | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ |
-| threads        | Número de _threads_ para multiprocessamento |
-| os_type        | Tipo de plataforma: **gnulinux** para GNU/Linux ou **win** para Windows |
-| python_version | Tipo de executable do Python 3: **python3** geralmente usado em GNU/Linux ou **python** geralmente usado em Windows |
+| **database_path**  | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários) |
+| **util_path**      | Caminho absoluto da pasta que contem os _scripts_ utilitários |
+| **output_path**    | Caminho absoluto da pasta de saída |
+| **database_fasta** | Nome do arquivo FASTA do banco de dados SILVA |
+| **database_bin**   | Prefixo dos arquivos binários do banco de dados SILVA |
+| **primers_file**   | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ |
+| **threads**        | Número de _threads_ para multiprocessamento |
+| **os_type**        | Tipo de plataforma: **gnulinux** para GNU/Linux ou **win** para Windows |
+| **python_version** | Tipo de executable do Python 3: **python3** geralmente usado em GNU/Linux ou **python** geralmente usado em Windows |
 
 > **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
 
