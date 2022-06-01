@@ -2,7 +2,7 @@ Curso de treinamento para _amplicon_ 16S rRNA
 ======================
 [![License](https://poser.pugx.org/badges/poser/license.svg)](./LICENSE)
 
-Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabens de agrupamento por OTUs (Operational Taxonomic Unit) e geração de ASVs (Amplicon Sequence Variant). Para ambas as abordagens, se disponibilizam scripts em [_Python 3_](#pipeline-em-python-3) que podem ser executados nas plataformas **GNU/Linux** e **Windows** e [_Shell script_](#pipeline-em-shell-script) que pode ser executado apenas em **GNU/Linux** (ou Mac OS).
+Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabens de agrupamento por OTUs (Operational Taxonomic Unit) e geração de ASVs (Amplicon Sequence Variant). Para ambas as abordagens, se disponibilizam scripts em [_Python 3_](#pipeline-em-python-3) que podem ser executados nas plataformas **GNU/Linux** e **Windows** e [_Shell script_](#pipeline-em-shell-script) que pode ser executado apenas em **GNU/Linux** (ou Mac OS). <span style="color:blue">some *blue* text</span>
 
 ## Recursos
 
