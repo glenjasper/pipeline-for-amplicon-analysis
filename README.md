@@ -24,7 +24,7 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 
 ## Dados de treinamento
 
-**training-files.zip**: Arquivos _pair-end_ FASTQ de treinamento. Neste treinamento utilizaremos dados de 4 tipo de amostras com suas réplicas biológicas que estão representados em 11 arquivos FASTQ pareados (3xBRS, 3xBPA, 3xBANHT e 2xENV), podem ser baixados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
+**training-files.zip**: Arquivos _pair-end_ FASTQ de treinamento. Neste treinamento utilizaremos dados de 4 tipo de amostras com suas réplicas biológicas que estão representados em 11 arquivos FASTQ pareados (3 x BRS, 3 x BPA, 3 x BANHT e 2 x ENV), podem ser baixados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
 
 ## Banco de dados SILVA
 
