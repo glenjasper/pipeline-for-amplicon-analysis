@@ -8,7 +8,8 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 
 - [Dados de treinamento](#dados-de-treinamento)
 - [Banco de dados SILVA](#banco-de-dados-silva)
-    - [Formatação do banco de dados SILVA](#formatação-do-banco-de-dados-silva)
+    - [Baixar e criar os binários do banco de dados](#baixar-e-criar-os-binarios-do-banco-de-dados)
+    - [Formatação do banco de dados para uso de ASVs](#formatação-do-banco-de-dados-para-uso-de-asvs)
 - [Pré-requisitos](#pré-requisitos)
     - [Programas](#programas)
     - [Bibliotecas Python](#bibliotecas-python)
@@ -25,6 +26,8 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 **training-files.zip**: Arquivos _pair-end_ FASTQ de treinamento. Neste treinamento utilizaremos dados de 4 tipo de amostras com suas réplicas biológicas que estão representados em 11 arquivos FASTQ pareados (3xBRS, 3xBPA, 3xBANHT e 2xENV), podem ser baixados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
 
 ## Banco de dados SILVA
+
+### Baixar e criar os binários do banco de dados
 Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports). Pode baixar o arquivo FASTA e criar os binários com os seguintes comandos:
 
 ```sh
@@ -46,7 +49,7 @@ Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/d
               -out silva_db_small
 ```
 
-### Formatação do banco de dados SILVA
+### Formatação do banco de dados para uso de ASVs
 O banco de dados SILVA não pode ser utilizado diretamente no _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma. Se estiver utilizando a versão _small_ do banco de dados, também deve ser formatado.
 
 ```sh
