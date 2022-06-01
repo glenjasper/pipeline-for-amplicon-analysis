@@ -137,7 +137,7 @@ Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas 
   # Python version (python3: for Python 3.x in GNU/Linux | python: for Python 3.x in Windows)
   python_version = python
 ```
-Descrição dos parâmetros:
+Descrição de parâmetros, que também se aplicam para os [_Shell Script_](#exemplo-de-configuração-os-parâmetros-internos-dos-scripts):
 
 | Parameter          | Description |
 | ------------------ | ----------- |
@@ -147,7 +147,7 @@ Descrição dos parâmetros:
 | **output_path**    | Caminho absoluto da pasta de saída |
 | **database_fasta** | Nome do arquivo FASTA do banco de dados SILVA |
 | **database_bin**   | Prefixo dos arquivos binários do banco de dados SILVA |
-| **primers_file**   | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ |
+| **primers_file**   | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ (o arquivo debe estar em **database_path**) |
 | **threads**        | Número de _threads_ para multiprocessamento |
 | **os_type**        | Tipo de plataforma: **gnulinux** para GNU/Linux ou **win** para Windows |
 | **python_version** | Tipo de executable do Python 3: **python3** geralmente usado em GNU/Linux ou **python** geralmente usado em Windows |
