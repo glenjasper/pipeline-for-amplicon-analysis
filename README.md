@@ -138,9 +138,21 @@ Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas 
   python_version = python
 ```
 
-> - aa
-> - bb
-> - cc
+> - samples_path
+> - database_path
+> - util_path
+> - output_path
+> - database_fasta
+> - database_bin
+> - primers_file
+> - threads
+> - os_type
+> - python_version
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
 
 > **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
 
