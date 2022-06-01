@@ -18,6 +18,7 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 - [Pipelines](#pipelines)
     - [Pipeline em Python 3](#pipeline-em-python-3)
     - [Pipeline em Shell Script](#pipeline-em-shell-script)
+- [Credits](#credits)
 - [Author](#author)
 - [Organization](#organization)
 - [License](#license)
@@ -92,12 +93,12 @@ Para as análises estatísticas se precisam ter instalados:
 
 ## _Scripts_
 
-- **util/map.py**: Script para mapear leituras non-singletons e non-chimeras (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
-- **util/rename_silva.py**: Script para renomear os cabeçalhos do arquivo FASTA do banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ para a geração de ASVs.
-- **util/reverse_complement.py**: Script para obter a reversa-complementar de um _primer_.
-- **util/get_abundances_table_otu.py**: Script para obter a tabela de abundâncias dos OTUs com dados taxonômicos.
-- **util/get_abundances_table_asv.py**: Script para obter a tabela de abundâncias dos ASVs com dados taxonômicos.
-- **util/get_abundances_by_tax.py**: Script para obter tabelas de dados para gerar Heatmaps, Diagramas de Venn e Bar-plots.
+- **util/map.py**: _Script_ para mapear leituras _non-singletons_ e _non-chimeras_ (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
+- **util/rename_silva.py**: _Script_ para renomear os cabeçalhos do arquivo FASTA do banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ com ASVs.
+- **util/reverse_complement.py**: _Script_ para obter a reversa-complementar de uma sequência (_forward-primer_).
+- **util/get_abundances_table_otu.py**: _Script_ para obter a tabela de abundâncias dos OTUs com dados taxonômicos.
+- **util/get_abundances_table_asv.py**: _Script_ para obter a tabela de abundâncias dos ASVs com dados taxonômicos.
+- **util/get_abundances_by_tax.py**: _Script_ para obter tabelas de dados para gerar _Heatmaps_, Diagramas de _Venn_ e Bar-plots.
 
 ## _Pipelines_
 
@@ -141,16 +142,16 @@ Descrição de parâmetros, que também se aplicam para os [_Shell Script_](#exe
 
 | Parameter          | Description |
 | ------------------ | ----------- |
-| **samples_path**   | Caminho absoluto da pasta que contem os arquivos FASTQ |
-| **database_path**  | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários) |
-| **util_path**      | Caminho absoluto da pasta que contem os _scripts_ utilitários |
-| **output_path**    | Caminho absoluto da pasta de saída |
-| **database_fasta** | Nome do arquivo FASTA do banco de dados SILVA |
-| **database_bin**   | Prefixo dos arquivos binários do banco de dados SILVA |
-| **primers_file**   | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ (o arquivo debe estar em **database_path**) |
-| **threads**        | Número de _threads_ para multiprocessamento |
-| **os_type**        | Tipo de plataforma: **gnulinux** para GNU/Linux ou **win** para Windows |
-| **python_version** | Tipo de executable do Python 3: **python3** geralmente usado em GNU/Linux ou **python** geralmente usado em Windows |
+| **samples_path**   | Caminho absoluto da pasta que contem os arquivos FASTQ. |
+| **database_path**  | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários). |
+| **util_path**      | Caminho absoluto da pasta que contem os _scripts_ utilitários. |
+| **output_path**    | Caminho absoluto da pasta de saída. |
+| **database_fasta** | Nome do arquivo FASTA do banco de dados SILVA. |
+| **database_bin**   | Prefixo dos arquivos binários do banco de dados SILVA. |
+| **primers_file**   | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ (o arquivo debe estar em **database_path**). |
+| **threads**        | Número de _threads_ para multiprocessamento. |
+| **os_type**        | Tipo de plataforma: **gnulinux** para GNU/Linux ou **win** para Windows. |
+| **python_version** | Tipo de executable do Python 3: **python3** geralmente usado em GNU/Linux ou **python** geralmente usado em Windows. |
 
 > **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
 
@@ -184,6 +185,11 @@ Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medi
 ```
 
 > **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
+
+## Credist
+
+- O _pipeline_ com a abordagem de OTUs foi baseado no _pipeline_ do VSEARCH proposto [aqui](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline).
+- O _pipeline_ com a abordagem de ASVs foi baseado no _pipeline_ proposto [aqui](https://astrobiomike.github.io/amplicon/workflow_ex).
 
 ## Author
 
