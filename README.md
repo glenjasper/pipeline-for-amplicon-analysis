@@ -186,7 +186,7 @@ Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medi
 
 > **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
 
-## Credist
+## Credits
 
 - O _pipeline_ com a abordagem de OTUs foi baseado no _pipeline_ do VSEARCH proposto [aqui](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline).
 - O _pipeline_ com a abordagem de ASVs foi baseado no _pipeline_ proposto [aqui](https://astrobiomike.github.io/amplicon/workflow_ex).
