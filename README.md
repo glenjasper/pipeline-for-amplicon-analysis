@@ -2,7 +2,7 @@ Curso de treinamento para _amplicon_ 16S rRNA
 ======================
 [![License](https://poser.pugx.org/badges/poser/license.svg)](./LICENSE)
 
-Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabens de agrupamento por OTUs (Operational Taxonomic Unit) e geração de ASVs (Amplicon Sequence Variant). Para ambas as abordagens, se disponibilizam scripts em [_Python 3_](#pipeline-em-python-3) que podem ser executados nas plataformas **GNU/Linux** e **Windows** e [_Shell script_](#pipeline-em-shell-script) que pode ser executado apenas em **GNU/Linux** (ou Mac OS). <span style="color:#7700FF">some blue text</span>
+Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabens de agrupamento por OTUs (Operational Taxonomic Unit) e geração de ASVs (Amplicon Sequence Variant). Para ambas as abordagens, se disponibilizam scripts em [_Python 3_](#pipeline-em-python-3) que podem ser executados nas plataformas **GNU/Linux** e **Windows** e [_Shell script_](#pipeline-em-shell-script) que pode ser executado apenas em **GNU/Linux** (ou Mac OS).
 
 ## Recursos
 
@@ -139,16 +139,16 @@ Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas 
 ```
 | Parameter      | Description |
 | -------------- | ----------- |
-| samples_path   | Caminho absoluto da pasta que contem os arquivos FASTQ    |
-| database_path  | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários)        |
-| util_path      | Caminho absoluto da pasta que contem os _scripts_ utilitários         |
-| output_path    | Caminho absoluto da pasta de saída        |
-| database_fasta | Nome do arquivo FASTA do banco de dados SILVA        |
-| database_bin   | Prefixo dos arquivos binários do banco de dados SILVA        |
-| primers_file   | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_        |
-| threads        | Número de _threads_ para multiprocessamento        |
-| os_type        | Tipo de plataforma: **gnulinux** para GNU/Linux ou **win** para Windows        |
-| python_version | Tipo de executable do Python 3: **python3** geralmente usado em GNU/Linux ou **python** geralmente usado em Windows        |
+| **samples_path**   | Caminho absoluto da pasta que contem os arquivos FASTQ |
+| _database_path_  | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários) |
+| util_path      | Caminho absoluto da pasta que contem os _scripts_ utilitários |
+| output_path    | Caminho absoluto da pasta de saída |
+| database_fasta | Nome do arquivo FASTA do banco de dados SILVA |
+| database_bin   | Prefixo dos arquivos binários do banco de dados SILVA |
+| primers_file   | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ |
+| threads        | Número de _threads_ para multiprocessamento |
+| os_type        | Tipo de plataforma: **gnulinux** para GNU/Linux ou **win** para Windows |
+| python_version | Tipo de executable do Python 3: **python3** geralmente usado em GNU/Linux ou **python** geralmente usado em Windows |
 
 > **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
 
