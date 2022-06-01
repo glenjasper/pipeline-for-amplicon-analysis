@@ -149,10 +149,18 @@ Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas 
 > - os_type
 > - python_version
 
-| Syntax      | Description |
-| ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |
+| Parameter      | Description |
+| -------------- | ----------- |
+| samples_path   | Title       |
+| database_path  | Text        |
+| util_path      | Text        |
+| output_path    | Text        |
+| database_fasta | Text        |
+| database_bin   | Text        |
+| primers_file  | Text        |
+| threads      | Text        |
+| os_type     | Text        |
+| python_version | Text        |
 
 > **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
 
