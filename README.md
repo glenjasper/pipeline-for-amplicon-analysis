@@ -8,7 +8,7 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 
 - [Dados de treinamento](#dados-de-treinamento)
 - [Banco de dados SILVA](#banco-de-dados-silva)
-    - [Baixar e criar os binários do banco de dados](#baixar-e-criar-os-binarios-do-banco-de-dados)
+    - [Baixar e criar os binários do banco de dados](#baixar-e-criar-os-binários-do-banco-de-dados)
     - [Formatação do banco de dados para uso de ASVs](#formatação-do-banco-de-dados-para-uso-de-asvs)
 - [Pré-requisitos](#pré-requisitos)
     - [Programas](#programas)
@@ -23,6 +23,7 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 - [License](#license)
 
 ## Dados de treinamento
+
 **training-files.zip**: Arquivos _pair-end_ FASTQ de treinamento. Neste treinamento utilizaremos dados de 4 tipo de amostras com suas réplicas biológicas que estão representados em 11 arquivos FASTQ pareados (3xBRS, 3xBPA, 3xBANHT e 2xENV), podem ser baixados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
 
 ## Banco de dados SILVA
@@ -57,6 +58,7 @@ O banco de dados SILVA não pode ser utilizado diretamente no _pipeline_ com ASV
 ```
 
 ## Pré-requisitos
+
 ### Programas
 Os _pipelines_ precisam dos seguintes programas (ou linguagen de programação). Para o [_pipeline_ em _Shell Script_](#pipeline-em-shell-script) estes requerimentos necessáriamente tem que estar instalados, no entanto, se utilizar o [_pipeline_ em _Python 3_](#pipeline-em-python-3), estes requerimentos já estão inclusos no código fonte (pasta **pipeline-python/utilities**).
 - [VSEARCH](https://github.com/torognes/vsearch)
@@ -89,6 +91,7 @@ Para as análises estatísticas se precisam ter instalados:
 ```
 
 ## _Scripts_
+
 - **util/map.py**: Script para mapear leituras non-singletons e non-chimeras (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
 - **util/rename_silva.py**: Script para renomear os cabeçalhos do arquivo FASTA do banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ para a geração de ASVs.
 - **util/reverse_complement.py**: Script para obter a reversa-complementar de um _primer_.
@@ -147,9 +150,7 @@ Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medi
 #### _Pipeline_ com abordagem de ASVs
 - **pipeline-shell/amplicon_pipeline_for_asv.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
-
 #### Exemplo de configuração os parâmetros internos dos _scripts_:
-
 ```sh
   # Paths
   samples_path=D:\my_workstation\amplicon\dataset
