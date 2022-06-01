@@ -138,6 +138,10 @@ Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas 
   python_version = python
 ```
 
+> - aa
+> - bb
+> - cc
+
 > **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
 
 ### _Pipeline_ em _Shell Script_
