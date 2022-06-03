@@ -448,6 +448,13 @@ class Pipeline:
                        '--fastq_eeout']
 
             words = 'Statistics of merged reads'
+        elif step == 'fastx_subsample':
+            arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                       '--fastx_subsample %s' % params['input'],
+                       '--sample_size %s' % params['sample_size'],
+                       '--fastqout %s' % params['output']]
+
+            words = 'Subsampling 100%'
         elif step == 'fastq_filter':
             arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
                        '--fastq_filter %s' % params['input'],
@@ -529,14 +536,7 @@ class Pipeline:
     def run_usearch(self, params, step = None, extra_info = None):
         arr_cmd = []
         words = ''
-        if step == 'fastx_subsample':
-            arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
-                       '-fastx_subsample %s' % params['input'],
-                       '-sample_size %s' % params['sample_size'],
-                       '-fastqout %s' % params['output']]
-
-            words = 'Sampling'
-        elif step == 'search_oligodb':
+        if step == 'search_oligodb':
             arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
                        '-search_oligodb %s' % params['input'],
                        '-db %s' % params['db'],
@@ -714,7 +714,7 @@ class Pipeline:
                               'sample_size': '1000',
                               'output': output_subset}
 
-                    self.run_usearch(params, step = 'fastx_subsample', extra_info = info)
+                    self.run_vsearch(params, step = 'fastx_subsample', extra_info = info)
 
                     #################################################################################
                     # Verification of the position of the primers
