@@ -79,9 +79,9 @@ for R in ${samples_path}/*_R1_001.fastq ; do
   echo ""
   echo "Extraction of a subsample of 1000 reads"
 
-  $USEARCH -fastx_subsample ${prefix}.merged.fq \
-           -sample_size 1000 \
-           -fastqout ${prefix}.merged_subset_1000.fq
+  $VSEARCH --fastx_subsample ${prefix}.merged.fq \
+           --sample_size 1000 \
+           --fastqout ${prefix}.merged_subset_1000.fq
 
   echo ""
   echo "Verification of the position of the primers"
