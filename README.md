@@ -17,7 +17,9 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 - [Scripts](#scripts)
 - [Pipelines](#pipelines)
     - [Pipeline em Python 3](#pipeline-em-python-3)
+     - [Arquivo de configuração config.txt](#arquivo-de-configuração-config.txt)
     - [Pipeline em Shell Script](#pipeline-em-shell-script)
+- [Como-usar-o-pipeline](#como-usar-o-pipeline)
 - [Credits](#credits)
 - [Author](#author)
 - [Organization](#organization)
@@ -104,15 +106,14 @@ Para as análises estatísticas se precisam ter instalados:
 
 ### _Pipeline_ em _Python 3_
 
-Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Estes _scripts_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. Estes _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/utilities** (arquivos: _common.zip_, _gnulinux.zip_ e _win.zip_), os quais devem ser descompactados pelo usuário. O usuário também precisa configurar os parâmetros do arquivo **config.txt**.
+Se desenvolveu um _script_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Este _script_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. O _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/utilities** (arquivos: _common.zip_, _gnulinux.zip_ e _win.zip_), os quais devem ser descompactados pelo usuário. O usuário também precisa configurar os parâmetros do arquivo **config.txt**.
 
-#### _Pipeline_ com abordagem de OTUs
-- **pipeline-python/amplicon_pipeline_for_otu.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
+#### _Pipeline_ para as abordagens de ASVs e OTUs
+- **pipeline-python/amplicon_pipeline.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs ou OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
-#### _Pipeline_ com abordagem de ASVs
-- **pipeline-python/amplicon_pipeline_for_asv.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
+#### Arquivo de configuração config.txt:
 
-#### Exemplo de configuração do arquivo **config.txt**:
+Exemplo de configuração do arquivo **config.txt**:
 
 ```sh
   [PARAMETERS]
@@ -229,6 +230,39 @@ Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medi
 ```
 
 > **Nota**: Os parâmetros **database_bin**, **cluster_identity** e **blast_identity** são utilizados apenas para a abordagem com OTUs. Os parâmetros **high_identity_asv** e **sintax_cutoff** são utilizados apenas para a abordagem com ASVs.
+
+## Como usar o _pipeline_
+
+Para executar qualquer _pipeline_, primeiramente devem ser configurados os parâmetros do arquivo [config.txt](#arquivo-de-configuração-config.txt)
+
+- Executar o pipeline em _Shell Script_:
+
+```sh
+  ./amplicon_pipeline_for_asv.sh
+```
+
+- Executar o pipeline em _Python 3_:
+
+Para ver a forma de usar (_help_)
+
+```sh
+  $ python3 amplicon_pipeline.py --help
+  usage: amplicon_pipeline.py [-h] -c FILE [--version]
+
+  Pipeline for analysis of 16s rRNA amplicons, using ASVs (Amplicon Sequence Variant) or OTUs (Operational Taxonomic Unit)
+
+  optional arguments:
+    -h, --help            show this help message and exit
+    -c FILE, --config_file FILE
+                        Configuration file
+    --version             show program's version number and exit
+
+  Thank you!
+```
+
+```sh
+  python3 amplicon_pipeline.py -c config.txt
+```
 
 ## Credits
 
