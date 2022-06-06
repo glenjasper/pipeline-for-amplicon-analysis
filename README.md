@@ -116,13 +116,17 @@ Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas 
 
 ```sh
   [PARAMETERS]
+
+  # Type of approach to analysis (ASV or OTU)
+  approach_type = asv
+
   # Paths
   samples_path = D:\my_workstation\amplicon\dataset
   database_path = D:\my_workstation\amplicon\database
   util_path = D:\my_workstation\amplicon\util
   output_path = D:\my_workstation\amplicon\results-otu
 
-  # Taxonomy database (files must be in database_path)
+  # Taxonomy database (files must be in database_path | database_bin only for OTUs)
   database_fasta = SILVA_138.1_SSURef_NR99_tax_silva.fasta
   database_bin = silva_db
 
@@ -130,30 +134,53 @@ Se desenvolveram dois _scripts_ em _Python 3_ para ambas as unidades de medidas 
   primers_file = illumina.primers.fa
 
   # Multiprocessing
-  threads = 4
+  threads = 10
 
-  # OS type (gnulinux: for GNU/Linux | win: for Windows)
-  os_type = win
+  # Platform type (gnulinux: for GNU/Linux | win: for Windows)
+  platform_type = win
 
   # Python version (python3: for Python 3.x in GNU/Linux | python: for Python 3.x in Windows)
   python_version = python
+
+  # [ASVs/OTUs] For quality filtering (maxee default: 0.8 | filter_maxlen is optional)
+  filter_maxee = 0.8
+  filter_minlen = 
+  filter_maxlen = 
+
+  # [Only OTUs] For clustering (default: 97)
+  cluster_identity = 97
+
+  # [Only OTUs] For taxonomic alignment (default: 97)
+  blast_identity = 97
+
+  # [Only ASVs] High identity to count ASVs (default: 99)
+  high_identity_asv = 99
+
+  # [Only ASVs] For taxonomic assignment (default: 0.8)
+  sintax_cutoff = 0.8
 ```
 Descrição de parâmetros, que também se aplicam para os [_Shell Script_](#exemplo-de-configuração-os-parâmetros-internos-dos-scripts):
 
-| Parameter          | Description |
-| ------------------ | ----------- |
-| **samples_path**   | Caminho absoluto da pasta que contem os arquivos FASTQ. |
-| **database_path**  | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários). |
-| **util_path**      | Caminho absoluto da pasta que contem os _scripts_ utilitários. |
-| **output_path**    | Caminho absoluto da pasta de saída. |
-| **database_fasta** | Nome do arquivo FASTA do banco de dados SILVA. |
-| **database_bin**   | Prefixo dos arquivos binários do banco de dados SILVA. |
-| **primers_file**   | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ (o arquivo debe estar em **database_path**). |
-| **threads**        | Número de _threads_ para multiprocessamento. |
-| **os_type**        | Tipo de plataforma: **gnulinux** para GNU/Linux ou **win** para Windows. |
-| **python_version** | Tipo de executable do Python 3: **python3** geralmente usado em GNU/Linux ou **python** geralmente usado em Windows. |
-
-> **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
+| Parameter             | Description |
+| --------------------- | ----------- |
+| **approach_type**     | Tipo de abotrdagem (ASV ou OTU). |
+| **samples_path**      | Caminho absoluto da pasta que contem os arquivos FASTQ. |
+| **database_path**     | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários). |
+| **util_path**         | Caminho absoluto da pasta que contem os _scripts_ utilitários. |
+| **output_path**       | Caminho absoluto da pasta de saída. |
+| **database_fasta**    | Nome do arquivo FASTA do banco de dados SILVA. |
+| **database_bin**      | Prefixo dos arquivos binários do banco de dados SILVA. (Usado apenas com **OTUs**) |
+| **primers_file**      | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ (o arquivo debe estar em **database_path**). |
+| **threads**           | Número de _threads_ para multiprocessamento. |
+| **platform_type**     | Tipo de plataforma: **gnulinux** para GNU/Linux ou **win** para Windows. |
+| **python_version**    | Tipo de executable do Python 3: **python3** geralmente usado em GNU/Linux ou **python** geralmente usado em Windows. |
+| **filter_maxee**      | Máximo valor do erro esperado (E_max) das leituras. Se descartam as leituras com > E_max (_default_: 0.8). |
+| **filter_minlen**     | Tamanho mínimo de leitura (minlen). Se descartam as leituras com tamanho < minlen. |
+| **filter_maxlen**     | Tamanho máximo de leitura (maxlen). Se descartam as leituras com tamanho > maxlen. |
+| **cluster_identity**  | Valor de identidade do alinhamento a ser usado para a geração dos _clusters_ (_default_: 97). (Usado apenas com **OTUs**) |
+| **blast_identity**    | Valor de identidade (blastn) para a atribuição taxonômica com o banco de dados taxonômico (_default_: 97). (Usado apenas com **OTUs**) |
+| **high_identity_asv** | Valor de identidade para o mapeamento dos ASVs (_default_: 99). (Usado apenas com **ASVs**) |
+| **sintax_cutoff**     | Valor do _cutoff_ para a atribuição taxonômica dos ASVs com o banco de dados taxonômico (_default_: 0.8). (Usado apenas com **ASVs**) |
 
 ### _Pipeline_ em _Shell Script_
 
@@ -181,10 +208,27 @@ Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medi
   primers_file=illumina.primers.fa
 
   # Threads
-  THREADS=4
+  threads=10
+
+  # For quality filtering (maxee default: 0.8 | filter_maxlen is optional)
+  filter_maxee=0.8
+  filter_minlen=
+  filter_maxlen=
+
+  # For clustering (default: 97)
+  cluster_identity=97
+
+  # For taxonomic alignment (default: 97)
+  blast_identity=97
+
+  # High identity to count ASVs (default: 99)
+  high_identity_asv=99
+
+  # For taxonomic assignment (default: 0.8)
+  sintax_cutoff=0.8
 ```
 
-> **Nota**: Para a abordagem com ASV não se precisa do parâmetro **database_bin**.
+> **Nota**: Os parâmetros **database_bin**, **cluster_identity** e **blast_identity** são utilizados apenas para a abordagem com OTUs. Os parâmetros **high_identity_asv** e **sintax_cutoff** são utilizados apenas para a abordagem com ASVs.
 
 ## Credits
 
