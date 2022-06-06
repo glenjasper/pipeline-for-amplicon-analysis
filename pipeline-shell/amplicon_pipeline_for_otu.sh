@@ -13,7 +13,18 @@ database_bin=
 primers_file=
 
 # Threads
-THREADS=4
+threads=10
+
+# For quality filtering (maxee default: 0.8 | filter_maxlen is optional)
+filter_maxee=0.8
+filter_minlen=
+filter_maxlen=
+
+# For clustering (default: 97)
+cluster_identity=97
+
+# For taxonomic alignment (default: 97)
+blast_identity=97
 # ---------------------------------------------------------------------------------------
 
 USEARCH=$(which usearch)
@@ -57,7 +68,7 @@ for R in ${samples_path}/*_R1_001.fastq ; do
   echo "Merge paired-end sequence reads into one sequence"
 
   $VSEARCH --fastq_mergepairs ${R} \
-           --threads $THREADS \
+           --threads $threads \
            --reverse ${R/_R1/_R2} \
            --fastqout ${prefix}.merged.fq \
            --fastq_eeout
@@ -79,9 +90,9 @@ for R in ${samples_path}/*_R1_001.fastq ; do
   echo ""
   echo "Extraction of a subsample of 1000 reads"
 
-  $VSEARCH --fastx_subsample ${prefix}.merged.fq \
-           --sample_size 1000 \
-           --fastqout ${prefix}.merged_subset_1000.fq
+  $USEARCH -fastx_subsample ${prefix}.merged.fq \
+           -sample_size 1000 \
+           -fastqout ${prefix}.merged_subset_1000.fq
 
   echo ""
   echo "Verification of the position of the primers"
@@ -112,12 +123,14 @@ for R in ${samples_path}/*_R1_001.fastq ; do
   echo "Quality filtering"
 
   $VSEARCH --fastq_filter ${prefix}.trimmed_prev.fq \
-           --fastq_maxee 0.5 \
-           --fastq_minlen 300 \
+           --fastq_maxee ${filter_maxee} \
+           --fastq_minlen ${filter_minlen} \
+           --fastq_maxlen ${filter_maxlen} \
            --eeout \
            --fastqout ${prefix}.filtered.fq \
            --fastaout ${prefix}.filtered.fa \
-           --fasta_width 0
+           --fasta_width 0 \
+           --relabel `basename ${prefix}`.
 
   echo ""
   echo "[Filtered] Checking the quality of the reads"
@@ -125,21 +138,9 @@ for R in ${samples_path}/*_R1_001.fastq ; do
   $FASTQC -f fastq -o . ${prefix}.filtered.fq
 
   echo ""
-  echo "Dereplicate at sample level and relabel with sample.n"
-
-  $VSEARCH --derep_fulllength ${prefix}.filtered.fa \
-           --minuniquesize 2 \
-           --strand plus \
-           --output ${prefix}.dereplicated.fa \
-           --sizeout \
-           --uc ${prefix}.dereplicated.uc \
-           --relabel `basename ${prefix}`. \
-           --fasta_width 0
-
-  echo ""
 done
 
-echo "Sum of unique sequences in each sample:" $(cat *.dereplicated.fa | grep -c "^>")
+echo "Sum of sequences in each sample:" $(cat *.filtered.fa | grep -c "^>")
 
 # At this point there should be one fasta file for each sample
 # It should be quality filtered and dereplicated.
@@ -152,8 +153,7 @@ echo "==========================================================================
 echo ""
 echo "Merge all samples"
 
-rm -f all.dereplicated.fa all.nonchimeras.dereplicated.fa
-cat *.dereplicated.fa > all.fa
+cat *.filtered.fa > all.fa
 
 echo ""
 echo "Dereplicate across samples and remove singletons"
@@ -172,8 +172,8 @@ echo ""
 echo "Precluster at 97% before chimera detection"
 
 $VSEARCH --cluster_size all.dereplicated.fa \
-         --threads $THREADS \
-         --id 0.97 \
+         --threads $threads \
+         --id `bc -l <<< "scale=2; ${cluster_identity}/100"` \
          --strand plus \
          --sizein \
          --sizeout \
@@ -198,7 +198,7 @@ echo ""
 echo "Reference chimera detection"
 
 $VSEARCH --uchime_ref all.denovo.nonchimeras.fa \
-         --threads $THREADS \
+         --threads $threads \
          --db ${database_path}/${database_fasta} \
          --sizein \
          --sizeout \
@@ -233,8 +233,8 @@ echo ""
 echo "Cluster at 97% and relabel with OTU_n, generate OTU table"
 
 $VSEARCH --cluster_size all.nonchimeras.fa \
-         --threads $THREADS \
-         --id 0.97 \
+         --threads $threads \
+         --id `bc -l <<< "scale=2; ${cluster_identity}/100"` \
          --strand plus \
          --sizein \
          --sizeout \
@@ -256,7 +256,7 @@ echo "Identification of OTUs using BLAST"
 
 $BLASTN -db ${database_path}/${database_bin} \
         -query all.otus.fa \
-        -perc_identity 97.0 \
+        -perc_identity ${blast_identity} \
         -qcov_hsp_perc 90.0 \
         -outfmt "6 qseqid sseqid stitle pident length mismatch gapopen qstart qend sstart send evalue bitscore qcovhsp qcovs" \
         -out taxonomy.blast
