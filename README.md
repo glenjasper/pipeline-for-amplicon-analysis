@@ -17,9 +17,9 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 - [Scripts](#scripts)
 - [Pipelines](#pipelines)
     - [Pipeline em Python 3](#pipeline-em-python-3)
-     - [Arquivo de configuração config.txt](#arquivo-de-configuração-config.txt)
+    - [Arquivo de configuração config.txt](#arquivo-de-configuração-config-txt)
     - [Pipeline em Shell Script](#pipeline-em-shell-script)
-- [Como-usar-o-pipeline](#como-usar-o-pipeline)
+- [Como usar o pipeline](#como-usar-o-pipeline)
 - [Credits](#credits)
 - [Author](#author)
 - [Organization](#organization)
@@ -235,13 +235,7 @@ Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medi
 
 Para executar qualquer _pipeline_, primeiramente devem ser configurados os parâmetros do arquivo [config.txt](#arquivo-de-configuração-config.txt)
 
-- Executar o pipeline em _Shell Script_:
-
-```sh
-  ./amplicon_pipeline_for_asv.sh
-```
-
-- Executar o pipeline em _Python 3_:
+- Executar o _pipeline_ em _Python 3_:
 
 Para ver a forma de usar (_help_)
 
@@ -260,8 +254,16 @@ Para ver a forma de usar (_help_)
   Thank you!
 ```
 
+Forma de executar:
+
 ```sh
   python3 amplicon_pipeline.py -c config.txt
+```
+
+- Executar o _pipeline_ em _Shell Script_:
+
+```sh
+  ./amplicon_pipeline_for_asv.sh
 ```
 
 ## Credits
