@@ -17,7 +17,7 @@ Curso de treinamento para análise de _amplicon_ 16S rRNA utilizando as abordabe
 - [Scripts](#scripts)
 - [Pipelines](#pipelines)
     - [Pipeline em Python 3](#pipeline-em-python-3)
-    - [Arquivo de configuração](#arquivo-de-configuração)
+        - [Arquivo de configuração](#arquivo-de-configuração)
     - [Pipeline em Shell Script](#pipeline-em-shell-script)
 - [Como usar o pipeline](#como-usar-o-pipeline)
 - [Credits](#credits)
