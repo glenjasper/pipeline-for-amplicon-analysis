@@ -1,21 +1,42 @@
 [PARAMETERS]
+# Type of approach to analysis (ASV or OTU)
+approach_type = asv
+
 # Paths
 samples_path = 
 database_path = 
 util_path = 
 output_path = 
 
-# Taxonomy database (file must be in database_path)
+# Taxonomy database (files must be in database_path | database_bin only for OTUs)
 database_fasta = 
+database_bin = 
 
 # Primers file (file must be in database_path)
 primers_file = 
 
 # Multiprocessing
-threads = 4
+threads = 10
 
-# OS type (gnulinux: for GNU/Linux | win: for Windows)
-os_type = 
+# Platform type (gnulinux: for GNU/Linux | win: for Windows)
+platform_type = win
 
 # Python version (python3: for Python 3.x in GNU/Linux | python: for Python 3.x in Windows)
-python_version = 
+python_version = python
+
+# [ASVs/OTUs] For quality filtering (maxee default: 0.8 | filter_maxlen is optional)
+filter_maxee = 0.8
+filter_minlen = 
+filter_maxlen = 
+
+# [Only OTUs] For clustering (default: 97)
+cluster_identity = 97
+
+# [Only OTUs] For taxonomic alignment (default: 97)
+blast_identity = 97
+
+# [Only ASVs] High identity to count ASVs (default: 99)
+high_identity_asv = 99
+
+# [Only ASVs] For taxonomic assignment (default: 0.8)
+sintax_cutoff = 0.8
