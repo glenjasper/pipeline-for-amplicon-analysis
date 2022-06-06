@@ -12,7 +12,18 @@ database_fasta=
 primers_file=
 
 # Threads
-THREADS=4
+threads=10
+
+# For quality filtering (maxee default: 0.8 | filter_maxlen is optional)
+filter_maxee=0.8
+filter_minlen=
+filter_maxlen=
+
+# High identity to count ASVs (default: 99)
+high_identity_asv=99
+
+# For taxonomic assignment (default: 0.8)
+sintax_cutoff=0.8
 # ---------------------------------------------------------------------------------------
 
 USEARCH=$(which usearch)
@@ -108,13 +119,14 @@ echo ""
 echo "Quality filtering"
 
 $VSEARCH --fastq_filter all_samples_trimmed_prev.fq \
-         --fastq_maxee 0.5 \
-         --fastq_minlen 300 \
+         --fastq_maxee ${filter_maxee} \
+         --fastq_minlen ${filter_minlen} \
+         --fastq_maxlen ${filter_maxlen} \
          --eeout \
          --fastqout all_samples_filtered.fq \
          --fastaout all_samples_filtered.fa \
          --fasta_width 0 \
-         --fastq_qmax 42
+         --fastq_qmax 45
 
 echo ""
 echo "[Filtered] Checking the quality of the reads"
@@ -148,9 +160,9 @@ echo "Generating a count table"
 
 sed -i 's/Zotu/ASV_/' ASVs.fa
 $VSEARCH --usearch_global all_samples_filtered.fa \
-         --threads $THREADS \
+         --threads $threads \
          --db ASVs.fa \
-         --id 0.99 \
+         --id `bc -l <<< "scale=2; ${high_identity_asv}/100"` \
          --otutabout ASV_counts.txt
 
 ########################################
@@ -164,7 +176,7 @@ $USEARCH -sintax ASVs.fa \
          -db ${database_path}/${database_fasta} \
          -tabbedout ASV_taxonomy.txt \
          -strand both \
-         -sintax_cutoff 0.8
+         -sintax_cutoff ${sintax_cutoff}
 
 echo ""
 echo "Get table of abundances of ASVs with taxonomy"
