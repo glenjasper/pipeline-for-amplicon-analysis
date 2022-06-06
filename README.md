@@ -106,14 +106,14 @@ Para as análises estatísticas se precisam ter instalados:
 
 ### _Pipeline_ em _Python 3_
 
-Se desenvolveu um _script_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Este _script_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. O _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/utilities** (arquivos: _common.zip_, _gnulinux.zip_ e _win.zip_), os quais devem ser descompactados pelo usuário. O usuário também precisa configurar os parâmetros do arquivo **config.txt**.
+Se desenvolveu um _script_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Este _script_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. O _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/utilities** (arquivos: _common.zip_, _gnulinux.zip_ e _win.zip_), os quais devem ser descompactados pelo usuário. O usuário também precisa configurar os parâmetros do arquivo [**config.txt**](#arquivo-de-configuração).
 
 #### _Pipeline_ para as abordagens de ASVs e OTUs
 - **pipeline-python/amplicon_pipeline.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs ou OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
 
 #### Arquivo de configuração
 
-Exemplo de configuração do arquivo **config.txt**:
+O arquivo **config.txt** contém os parâmetros necessários para o funcionamento do _pipeline_. Exemplo de configuração:
 
 ```sh
   [PARAMETERS]
@@ -145,8 +145,8 @@ Exemplo de configuração do arquivo **config.txt**:
 
   # [ASVs/OTUs] For quality filtering (maxee default: 0.8 | filter_maxlen is optional)
   filter_maxee = 0.8
-  filter_minlen = 
-  filter_maxlen = 
+  filter_minlen = 400
+  filter_maxlen = 430
 
   # [Only OTUs] For clustering (default: 97)
   cluster_identity = 97
