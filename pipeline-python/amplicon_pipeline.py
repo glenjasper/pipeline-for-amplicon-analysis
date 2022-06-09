@@ -401,7 +401,7 @@ class Pipeline:
         if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_GNULINUX:
             self.PROGRAM_VSEARCH = 'vsearch'
             self.PROGRAM_USEARCH = 'usearch'
-            self.PROGRAM_CUTADAPT = 'cutadapt'
+            self.PROGRAM_CUTADAPT = 'cutadapt.py'
             self.PROGRAM_BLASTN = 'blastn'
         elif self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_WINDOWS:
             self.PROGRAM_VSEARCH = 'vsearch.exe'
