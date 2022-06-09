@@ -4,6 +4,7 @@ import os
 import re
 import sys
 import time
+import random
 import argparse
 import traceback
 import subprocess
@@ -722,7 +723,7 @@ class Pipeline:
                            '-sample_size %s' % params['sample_size'],
                            '-fastqout %s' % params['output']]
 
-                words = 'Sampling'
+                words = '100.0% Sampling'
             elif step == 'search_oligodb':
                 arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
                            '-search_oligodb %s' % params['input'],
@@ -830,6 +831,7 @@ class Pipeline:
         self.show_print("---------------------------------------------------------------------------------", [self.LOG_FILE], font = self.IGREEN)
         self.show_print("[Merge all samples]", [self.LOG_FILE], font = self.BIGREEN)
         self.show_print("---------------------------------------------------------------------------------", [self.LOG_FILE], font = self.IGREEN)
+        start = self.start_time()
 
         with open(fasta_file, 'w') as fw:
             for subdir, dirs, files in os.walk(self.KEY_OUTPUT_PATH):
@@ -843,6 +845,7 @@ class Pipeline:
 
         self.show_print("  Output file: %s" % fasta_file, [self.LOG_FILE])
         self.show_print("  Number of sequences: %s" % self.count_sequences(fasta_file), [self.LOG_FILE])
+        self.show_print(self.finish_time(start, "Elapsed time"), [self.LOG_FILE])
         self.show_print("", [self.LOG_FILE])
 
     def rename_head(self, file, from_text, to_text):
@@ -854,6 +857,8 @@ class Pipeline:
                 line = line.replace(from_text, to_text)
                 fw.write(line)
         fw.close()
+
+        return int(len(data_fr)/4)
 
     def run_fastqc(self, params, extra_info = None):
         fastqc_path = os.path.join(os.path.dirname(self.UTILITIES_PATH), 'common', 'FastQC')
@@ -880,6 +885,25 @@ class Pipeline:
                          command = arr_cmd,
                          success_words = words,
                          extra_info = extra_info)
+
+    def subsample_fq(self, params, nsequences):
+        self.show_print("---------------------------------------------------------------------------------", [self.LOG_FILE], font = self.IGREEN)
+        self.show_print("[Extraction of a subsample of 1000 reads]", [self.LOG_FILE], font = self.BIGREEN)
+        self.show_print("---------------------------------------------------------------------------------", [self.LOG_FILE], font = self.IGREEN)
+        start = self.start_time()
+
+        subsample_index = random.sample(range(1, nsequences + 1), int(params['sample_size']))
+        subsample_index.sort()
+
+        records = []
+        for index, record in enumerate(SeqIO.parse(params['input'], 'fastq'), start = 1):
+            if index in subsample_index:
+                records.append(record)
+        SeqIO.write(records, params['output'], 'fastq')
+
+        self.show_print("  Output file: %s" % params['output'], [self.LOG_FILE])
+        self.show_print(self.finish_time(start, "Elapsed time"), [self.LOG_FILE])
+        self.show_print("", [self.LOG_FILE])
 
     def run_pipeline_otu(self):
         primer_fwd, primer_rev_rc = self.run_get_primers()
@@ -1250,6 +1274,8 @@ class Pipeline:
 
         self.run_usearch(params, step = 'fastq_mergepairs', extra_info = info)
 
+        n_seqs = self.rename_head(output_merged, os.path.join(self.KEY_SAMPLES_PATH, ''), '')
+
         #################################################################################
         # [Merged] Checking the quality of the reads
         #################################################################################
@@ -1263,17 +1289,14 @@ class Pipeline:
         # Extraction of a subsample of 1000 reads
         #################################################################################
 
-        self.rename_head(output_merged, os.path.join(self.KEY_SAMPLES_PATH, ''), '')
-
         output_subset = 'subset_1000_samples_merged.fq'
         output_subset = os.path.join(self.KEY_OUTPUT_PATH, output_subset)
-        info = 'Extraction of a subsample of 1000 reads'
 
         params = {'input': output_merged,
                   'sample_size': '1000',
                   'output': output_subset}
 
-        self.run_usearch(params, step = 'fastx_subsample', extra_info = info)
+        self.subsample_fq(params, n_seqs)
 
         #################################################################################
         # Verification of the position of the primers
