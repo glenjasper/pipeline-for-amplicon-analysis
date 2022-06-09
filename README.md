@@ -184,7 +184,7 @@ Descrição de parâmetros, que também se aplicam para os [_Shell Script_](#exe
 | **high_identity_asv** | Valor de identidade para o mapeamento dos ASVs (_default_: 99). (Usado apenas com **ASVs**) |
 | **sintax_cutoff**     | Valor do _cutoff_ para a atribuição taxonômica dos ASVs com o banco de dados taxonômico (_default_: 0.8). (Usado apenas com **ASVs**) |
 
-> **Nota**: Do exemplo de configuração, o arquivo FASTA **illumina.primers.fa** deve conter primeiro o _forward-primer_ e depois o _reverse-primer_. É extremamente importante saber os _primers_ que foram utilizados no sequenciamento, aqui mostramos um exemplo com os _primers_ universais **341F** e **806R**:
+> **Nota**: Do exemplo de configuração, o arquivo FASTA **illumina.primers.fa** deve conter primeiro o _forward-primer_ e depois o _reverse-primer_. É extremamente importante saber os _primers_ que foram utilizados na amplificação (PCR) dos seus dados. Aqui mostramos um exemplo do conteúdo do arquivo de configuração com os _primers_ universais **341F** e **806R**:
 ```sh
 >341F 
 CCTACGGGRSGCAGCAG
