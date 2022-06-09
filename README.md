@@ -69,6 +69,7 @@ Os _pipelines_ precisam dos seguintes programas (ou linguagen de programação).
 - [NCBI BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
 - [Cutadapt](https://cutadapt.readthedocs.io/en/stable/installation.html)
 - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc)
+  - Para o correto funcionamento do FastQC préviamente precisa instalar o [JDK de JAVA](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)
 - [Python 3](https://www.python.org)
 
 Para as análises estatísticas se precisam ter instalados:
@@ -145,8 +146,8 @@ O arquivo **config.txt** contém os parâmetros necessários para o funcionament
 
   # [ASVs/OTUs] For quality filtering (maxee default: 0.8 | filter_maxlen is optional)
   filter_maxee = 0.8
-  filter_minlen = 400
-  filter_maxlen = 430
+  filter_minlen = 350
+  filter_maxlen = 
 
   # [Only OTUs] For clustering (default: 97)
   cluster_identity = 97
@@ -183,6 +184,14 @@ Descrição de parâmetros, que também se aplicam para os [_Shell Script_](#exe
 | **high_identity_asv** | Valor de identidade para o mapeamento dos ASVs (_default_: 99). (Usado apenas com **ASVs**) |
 | **sintax_cutoff**     | Valor do _cutoff_ para a atribuição taxonômica dos ASVs com o banco de dados taxonômico (_default_: 0.8). (Usado apenas com **ASVs**) |
 
+> **Nota**: Do exemplo de configuração, o arquivo FASTA **illumina.primers.fa** deve conter primeiro o _forward-primer_ e depois o _reverse-primer_. É extremamente importante saber os _primers_ que foram utilizados no sequenciamento, aqui mostramos um exemplo com os _primers_ universais **341F** e **806R**:
+```sh
+>341F 
+CCTACGGGRSGCAGCAG
+>806R
+GGACTACHVGGGTWTCTAAT
+```
+
 ### _Pipeline_ em _Shell Script_
 
 Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medidas (OTUs e ASVs). Estes _scripts_ podem ser utilizados apenas na plataforma **GNU/Linux** (ou Mac OS). Cada _script_ apresenta internamente parâmetros a serem configurados pelo usuário. 
@@ -213,7 +222,7 @@ Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medi
 
   # For quality filtering (maxee default: 0.8 | filter_maxlen is optional)
   filter_maxee=0.8
-  filter_minlen=
+  filter_minlen=350
   filter_maxlen=
 
   # For clustering (default: 97)
