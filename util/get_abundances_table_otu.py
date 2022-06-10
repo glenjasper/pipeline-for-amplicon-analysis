@@ -20,6 +20,10 @@ def read_taxonomy_file(file, input_type = 'silva'):
         elif input_type == 'rdp':
             subject_id = row[1]
             lineage = subject_id.split('tax=')[1].strip()
+        elif input_type == 'unite':
+            subject_id = row[1]
+            lineage = subject_id.split('k__')[1].strip()
+            lineage = 'k__%s' % lineage
 
         if otu_id not in OTUs:
             OTUs.update({otu_id: lineage})
@@ -51,6 +55,9 @@ def read_otu_file(file, dict_otus, output_file, input_type = 'silva'):
             elif input_type == 'rdp':
                 lineage_split = lineage.replace('d:', '').replace('p:', '').replace('c:', '').replace('o:', '').replace('f:', '').replace('g:', '').replace('s:', '').replace('_', ' ').replace("\"", '')
                 lineage_split = lineage_split.split(',')
+            elif input_type == 'unite':
+                lineage_split = lineage.replace('k__', '').replace('p__', '').replace('c__', '').replace('o__', '').replace('f__', '').replace('g__', '').replace('s__', '')
+                lineage_split = lineage_split.split(';')
 
             n_levels = len(lineage_split)
 
@@ -103,7 +110,7 @@ def read_otu_file(file, dict_otus, output_file, input_type = 'silva'):
 
 def main(args):
     if len(args) <= 4:
-        message = 'Four arguments needed: <silva|rdp> file.blast, file.otu and abundance.txt\n'
+        message = 'Four arguments needed: <silva|rdp|unite> file.blast, file.otu and abundance.txt\n'
         print(message)
     else:
         input_type = args[1]
