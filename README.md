@@ -97,7 +97,7 @@ Para as análises estatísticas se precisam ter instalados:
 ## _Scripts_
 
 - **util/map.py**: _Script_ para mapear leituras _non-singletons_ e _non-chimeras_ (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
-- **util/rename_silva.py**: _Script_ para renomear os cabeçalhos do arquivo FASTA do banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) para ser utilizado com o _pipeline_ com ASVs.
+- **util/rename_database.py**: _Script_ para renomear os cabeçalhos do arquivo FASTA dos banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports) e [UNITE](https://unite.ut.ee/repository.php) para serem utilizados com o _pipeline_ com ASVs.
 - **util/reverse_complement.py**: _Script_ para obter a reversa-complementar de uma sequência (_forward-primer_).
 - **util/get_abundances_table_otu.py**: _Script_ para obter a tabela de abundâncias dos OTUs com dados taxonômicos.
 - **util/get_abundances_table_asv.py**: _Script_ para obter a tabela de abundâncias dos ASVs com dados taxonômicos.
@@ -128,7 +128,8 @@ O arquivo **config.txt** contém os parâmetros necessários para o funcionament
   util_path = D:\my_workstation\amplicon\util
   output_path = D:\my_workstation\amplicon\results-otu
 
-  # Taxonomy database (files must be in database_path | database_bin only for OTUs)
+  # Taxonomy database (files must be in database_path | database_type can be silva, rdp or unite | database_bin only for OTUs)
+  database_type = silva
   database_fasta = SILVA_138.1_SSURef_NR99_tax_silva.fasta
   database_bin = silva_db
 
@@ -170,6 +171,7 @@ Descrição de parâmetros, que também se aplicam para os [_Shell Script_](#exe
 | **database_path**     | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários). |
 | **util_path**         | Caminho absoluto da pasta que contem os _scripts_ utilitários. |
 | **output_path**       | Caminho absoluto da pasta de saída. |
+| **database_type**     | Tipo de banco de dados taxonômico: **silva**, **rdp** e **unite**. |
 | **database_fasta**    | Nome do arquivo FASTA do banco de dados SILVA. |
 | **database_bin**      | Prefixo dos arquivos binários do banco de dados SILVA. (Usado apenas com **OTUs**) |
 | **primers_file**      | Nome do arquivo FASTA que contém os _primers_ _forward_ e _reverse_ (o arquivo debe estar em **database_path**). |
@@ -210,7 +212,8 @@ Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medi
   util_path=D:\my_workstation\amplicon\util
   output_path=D:\my_workstation\amplicon\results-otu
 
-  # Taxonomy database (files must be in database_path)
+  # Taxonomy database (files must be in database_path | database_type can be silva, rdp or unite | database_bin only for OTUs)
+  database_type=silva
   database_fasta=SILVA_138.1_SSURef_NR99_tax_silva.fasta
   database_bin=silva_db
 
