@@ -70,6 +70,7 @@ class Pipeline:
         self.KEY_UTIL_PATH = None
         self.KEY_OUTPUT_PATH = None
         self.KEY_PRIMERS_FILE = None
+        self.KEY_DATABASE_TYPE = None
         self.KEY_DATABASE_FASTA = None
         self.KEY_DATABASE_BIN = None
         self.KEY_THREADS = None
@@ -95,6 +96,7 @@ class Pipeline:
         self.PARAMETER_UTIL_PATH = "UTIL_PATH"
         self.PARAMETER_OUTPUT_PATH = "OUTPUT_PATH"
         self.PARAMETER_PRIMERS_FILE = "PRIMERS_FILE"
+        self.PARAMETER_DATABASE_TYPE = "DATABASE_TYPE"
         self.PARAMETER_DATABASE_FASTA = "DATABASE_FASTA"
         self.PARAMETER_DATABASE_BIN = "DATABASE_BIN"
         self.PARAMETER_THREADS = "THREADS"
@@ -113,6 +115,10 @@ class Pipeline:
         self.APPROACH_TYPE_OTU = "otu"
         self.PLATFORM_TYPE_GNULINUX = "gnulinux"
         self.PLATFORM_TYPE_WINDOWS = "win"
+
+        self.DATABASE_TYPE_SILVA = "silva"
+        self.DATABASE_TYPE_RDP = "rdp"
+        self.DATABASE_TYPE_UNITE = "unite"
 
         # Fonts
         self.RED = '\033[31m'
@@ -190,6 +196,7 @@ class Pipeline:
         self.KEY_DATABASE_PATH = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_DATABASE_PATH)
         self.KEY_UTIL_PATH = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_UTIL_PATH)
         self.KEY_OUTPUT_PATH = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_OUTPUT_PATH)
+        self.KEY_DATABASE_TYPE = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_DATABASE_TYPE)
         self.KEY_DATABASE_FASTA = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_DATABASE_FASTA)
         self.KEY_DATABASE_BIN = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_DATABASE_BIN)
         self.KEY_PRIMERS_FILE = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_PRIMERS_FILE)
@@ -262,6 +269,16 @@ class Pipeline:
         else:
             if not self.check_path(self.KEY_UTIL_PATH):
                 self.show_print("[WARNING] Path '%s' of parameter '%s' doesn't exist" % (self.KEY_UTIL_PATH, self.PARAMETER_UTIL_PATH.lower()), showdate = False, font = self.YELLOW)
+                exit()
+
+        # Database type
+        if not self.KEY_DATABASE_TYPE:
+            self.show_print("[WARNING] Value of parameter '%s' not specified" % (self.PARAMETER_DATABASE_TYPE.lower()), showdate = False, font = self.YELLOW)
+            exit()
+        else:
+            self.KEY_DATABASE_TYPE = self.KEY_DATABASE_TYPE.lower()
+            if not self.KEY_DATABASE_TYPE in [self.DATABASE_TYPE_SILVA, self.DATABASE_TYPE_RDP, self.DATABASE_TYPE_UNITE]:
+                self.show_print("[WARNING] You must specify some value for the '%s' parameter: %s, %s or %s" % (self.PARAMETER_DATABASE_TYPE.lower(), self.DATABASE_TYPE_SILVA, self.DATABASE_TYPE_RDP, self.DATABASE_TYPE_UNITE), showdate = False, font = self.YELLOW)
                 exit()
 
         # Database fasta file
@@ -1225,7 +1242,7 @@ class Pipeline:
         output_abundances_table = os.path.join(self.KEY_OUTPUT_PATH, output_abundances_table)
         info = 'Get table of abundances of OTUs with taxonomy'
 
-        params = {'db_type': 'silva',
+        params = {'db_type': self.KEY_DATABASE_TYPE,
                   'blast_file': output_blastn,
                   'otutab_file': output_cluster_otutab,
                   'output': output_abundances_table}
