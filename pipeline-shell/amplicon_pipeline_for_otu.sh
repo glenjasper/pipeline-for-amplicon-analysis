@@ -5,7 +5,8 @@ database_path=
 util_path=
 output_path=
 
-# Taxonomy database (files must be in database_path)
+# Taxonomy database (files must be in database_path | database_type can be silva, rdp or unite | database_bin only for OTUs)
+database_type=
 database_fasta=
 database_bin=
 
@@ -267,7 +268,7 @@ echo ""
 echo "Get table of abundances of OTUs with taxonomy"
 
 $PYTHON ${util_path}/get_abundances_table_otu.py \
-        silva \
+        ${database_type} \
         taxonomy.blast \
         all.otutab.txt \
         abundance_table_otu.csv
