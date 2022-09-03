@@ -1,4 +1,4 @@
-Curso de treinamento para _amplicon_ 16S rRNA
+16s _amplicon_ analysis
 ======================
 [![License](https://poser.pugx.org/badges/poser/license.svg)](./LICENSE)
 
