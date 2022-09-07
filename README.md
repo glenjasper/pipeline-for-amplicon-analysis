@@ -1,4 +1,4 @@
-16s _amplicon_ analysis
+Pipeline for amplicon analysis
 ======================
 [![License](https://poser.pugx.org/badges/poser/license.svg)](./LICENSE)
 
