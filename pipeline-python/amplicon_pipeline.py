@@ -246,11 +246,11 @@ class Pipeline:
                 are_there_files = False
                 for subdir, dirs, files in os.walk(self.KEY_SAMPLES_PATH):
                     for file in files:
-                        if re.search('[_][Rr][1][_](\w|[-])+\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
+                        if re.search('[_][Rr][1][_]?(\w|[-])*\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
                             are_there_files = True
                             break
                 if not are_there_files:
-                    self.show_print("[WARNING] Path '%s' doesn't contain any FASTQ file with the format <part1>_R1_<part2>.fastq" % (self.KEY_SAMPLES_PATH), showdate = False, font = self.YELLOW)
+                    self.show_print("[WARNING] Path '%s' doesn't contain any FASTQ file with the format <part1>_R1_<part2>.fastq or <part1>_R1.fastq" % (self.KEY_SAMPLES_PATH), showdate = False, font = self.YELLOW)
                     exit()
 
         # Database path
@@ -927,7 +927,7 @@ class Pipeline:
 
         for subdir, dirs, files in os.walk(self.KEY_SAMPLES_PATH):
             for file in files:
-                if re.search('[_][Rr][1][_](\w|[-])+\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
+                if re.search('[_][Rr][1][_]?(\w|[-])*\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
                     fastq_r1_file = os.path.join(subdir, file)
                     fastq_r2_file = file.replace('_R1_', '_R2_')
                     fastq_r2_file = os.path.join(subdir, fastq_r2_file)
@@ -1258,7 +1258,7 @@ class Pipeline:
         arr_r1 = []
         for subdir, dirs, files in os.walk(self.KEY_SAMPLES_PATH):
             for file in files:
-                if re.search('[_][Rr][1][_](\w|[-])+\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
+                if re.search('[_][Rr][1][_]?(\w|[-])*\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
                     fastq_r1_file = os.path.join(subdir, file)
                     fastq_r2_file = file.replace('_R1_', '_R2_')
                     fastq_r2_file = os.path.join(subdir, fastq_r2_file)
