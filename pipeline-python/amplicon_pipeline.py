@@ -932,9 +932,9 @@ class Pipeline:
             for file in files:
                 if re.search('[_][Rr][1][_]?(\w|[-])*\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
                     fastq_r1_file = os.path.join(subdir, file)
-                    fastq_r2_file = file.replace('_R1_', '_R2_')
+                    fastq_r2_file = file.replace('_R1', '_R2')
                     fastq_r2_file = os.path.join(subdir, fastq_r2_file)
-                    prefix = file.split('_R1_')[0]
+                    prefix = file.split('_R1')[0]
 
                     #################################################################################
                     # [Rawdata] Checking the quality of the reads
@@ -1263,9 +1263,9 @@ class Pipeline:
             for file in files:
                 if re.search('[_][Rr][1][_]?(\w|[-])*\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
                     fastq_r1_file = os.path.join(subdir, file)
-                    fastq_r2_file = file.replace('_R1_', '_R2_')
+                    fastq_r2_file = file.replace('_R1', '_R2')
                     fastq_r2_file = os.path.join(subdir, fastq_r2_file)
-                    prefix = file.split('_R1_')[0]
+                    prefix = file.split('_R1')[0]
                     arr_r1.append(fastq_r1_file)
 
                     #################################################################################
