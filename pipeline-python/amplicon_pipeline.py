@@ -418,7 +418,7 @@ class Pipeline:
         if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_GNULINUX:
             self.PROGRAM_VSEARCH = 'vsearch'
             self.PROGRAM_USEARCH = 'usearch'
-            self.PROGRAM_CUTADAPT = 'cutadapt.py'
+            self.PROGRAM_CUTADAPT = 'cutadapt'
             self.PROGRAM_BLASTN = 'blastn'
         elif self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_WINDOWS:
             self.PROGRAM_VSEARCH = 'vsearch.exe'
@@ -428,7 +428,6 @@ class Pipeline:
 
         prog_vsearch = os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH)
         prog_usearch = os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH)
-        prog_cutadapt = os.path.join(self.UTILITIES_PATH, self.PROGRAM_CUTADAPT)
         prog_blastn = os.path.join(self.UTILITIES_PATH, self.PROGRAM_BLASTN)
 
         fastqc_path = os.path.join(os.path.dirname(self.UTILITIES_PATH), 'common', 'FastQC')
@@ -437,13 +436,12 @@ class Pipeline:
         if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_GNULINUX:
             os.chmod(prog_vsearch, int('755', base = 8))
             os.chmod(prog_usearch, int('755', base = 8))
-            os.chmod(prog_cutadapt, int('755', base = 8))
             os.chmod(prog_fastqc, int('755', base = 8))
             os.chmod(prog_blastn, int('755', base = 8))
 
         self.check_version('%s --version' % prog_vsearch, self.PROGRAM_VSEARCH)
         self.check_version('%s --version' % prog_usearch, self.PROGRAM_USEARCH)
-        self.check_version('%s --version' % prog_cutadapt, self.PROGRAM_CUTADAPT)
+        self.check_version('%s --version' % self.PROGRAM_CUTADAPT, self.PROGRAM_CUTADAPT)
 
         if self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_OTU:
             self.check_version('%s -version' % prog_blastn, self.PROGRAM_BLASTN)
@@ -773,10 +771,15 @@ class Pipeline:
                          extra_info = extra_info)
 
     def run_cutadapt(self, params, step = None, extra_info = None):
+        if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_GNULINUX:
+            prog_cutadapt = self.PROGRAM_CUTADAPT
+        elif self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_WINDOWS:
+            prog_cutadapt = os.path.join(self.UTILITIES_PATH, self.PROGRAM_CUTADAPT)
+
         arr_cmd = []
         words = ''
         if step == 'forward':
-            arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_CUTADAPT),
+            arr_cmd = ['%s' % prog_cutadapt,
                        '-g %s' % params['f_primer'],
                        '--discard-untrimmed',
                        '-o %s' % params['output'],
@@ -784,7 +787,7 @@ class Pipeline:
 
             words = 'Overview of removed sequences'
         elif step == 'reverse':
-            arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_CUTADAPT),
+            arr_cmd = ['%s' % prog_cutadapt,
                        '-a %s' % params['r_primer_rc'],
                        '--discard-untrimmed',
                        '-o %s' % params['output'],
