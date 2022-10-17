@@ -183,8 +183,14 @@ class Pipeline:
             output = False
         return output
 
-    def count_sequences(self, fasta_file):
-        n = len([1 for line in open(fasta_file, 'r') if line.startswith('>')])
+    def count_sequences(self, file):
+        n = len([1 for line in open(file, 'r')])
+
+        if file.endswith('.fa'):
+            n = int(n/2)
+        elif file.endswith('.fq'):
+            n = int(n/4)
+
         return n
 
     def read_keys(self):
@@ -663,7 +669,17 @@ class Pipeline:
 
                 words = 'Clustering 100%'
         elif self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_ASV:
-            if step == 'fastq_filter':
+            if step == 'fastq_mergepairs':
+                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                           '--fastq_mergepairs %s' % params['r1'],
+                           '--reverse %s' % params['r2'],
+                           '--threads %s' % self.KEY_THREADS,
+                           '--fastqout %s' % params['output'],
+                           '--relabel %s' % params['relabel'],
+                           '--fastq_eeout']
+
+                words = 'Statistics of merged reads'
+            elif step == 'fastq_filter':
                 arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
                            '--fastq_filter %s' % params['input'],
                            '--fastq_maxee %s' % params['fastq_maxee'],
@@ -727,7 +743,7 @@ class Pipeline:
         elif self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_ASV:
             if step == 'fastq_mergepairs':
                 arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
-                           '-fastq_mergepairs %s' % params['input'],
+                           '-fastq_mergepairs %s' % params['input'], # Automatic R2 filename
                            '-fastqout %s' % params['output'],
                            '-relabel %s' % params['relabel']]
 
@@ -847,26 +863,37 @@ class Pipeline:
                                          command = arr_cmd,
                                          extra_info = extra_info)
 
-    def run_merge_all(self, fasta_file, prefix):
+    def run_merge_all(self, output_file, prefix = None):
         self.show_print("---------------------------------------------------------------------------------", [self.LOG_FILE], font = self.IGREEN)
         self.show_print("[Merge all samples]", [self.LOG_FILE], font = self.BIGREEN)
         self.show_print("---------------------------------------------------------------------------------", [self.LOG_FILE], font = self.IGREEN)
         start = self.start_time()
 
-        with open(fasta_file, 'w') as fw:
+        with open(output_file, 'w') as fw:
             for subdir, dirs, files in os.walk(self.KEY_OUTPUT_PATH):
                 for file in files:
-                    if file.endswith('.filtered.fa') and not file.startswith(prefix):
-                        with open(os.path.join(subdir, file), 'r') as fr:
-                            for line in fr:
-                                fw.write(line)
-                        fr.close()
+                    if self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_OTU:
+                        if file.endswith('.filtered.fa') and not file.startswith(prefix):
+                            with open(os.path.join(subdir, file), 'r') as fr:
+                                for line in fr:
+                                    fw.write(line)
+                            fr.close()
+                    elif self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_ASV:
+                        if file.endswith('.merged.fq'):
+                            with open(os.path.join(subdir, file), 'r') as fr:
+                                for line in fr:
+                                    fw.write(line)
+                            fr.close()
         fw.close()
 
-        self.show_print("  Output file: %s" % fasta_file, [self.LOG_FILE])
-        self.show_print("  Number of sequences: %s" % self.count_sequences(fasta_file), [self.LOG_FILE])
+        n_sequences = self.count_sequences(output_file)
+
+        self.show_print("  Output file: %s" % output_file, [self.LOG_FILE])
+        self.show_print("  Number of sequences: %s" % n_sequences, [self.LOG_FILE])
         self.show_print(self.finish_time(start, "Elapsed time"), [self.LOG_FILE])
         self.show_print("", [self.LOG_FILE])
+
+        return n_sequences
 
     def rename_head(self, file, from_text, to_text):
         with open(file, 'r') as fr:
@@ -1258,7 +1285,6 @@ class Pipeline:
     def run_pipeline_asv(self):
         primer_fwd, primer_rev_rc = self.run_get_primers()
 
-        arr_r1 = []
         for subdir, dirs, files in os.walk(self.KEY_SAMPLES_PATH):
             for file in files:
                 if re.search('[_][Rr][1][_]?(\w|[-])*\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
@@ -1266,7 +1292,6 @@ class Pipeline:
                     fastq_r2_file = file.replace('_R1', '_R2')
                     fastq_r2_file = os.path.join(subdir, fastq_r2_file)
                     prefix = file.split('_R1')[0]
-                    arr_r1.append(fastq_r1_file)
 
                     #################################################################################
                     # [Rawdata] Checking the quality of the reads
@@ -1280,21 +1305,37 @@ class Pipeline:
                     params = {'input': fastq_r2_file}
                     self.run_fastqc(params, extra_info = info)
 
+                    #################################################################################
+                    # Merge paired-end sequence reads into one sequence
+                    #################################################################################
+
+                    output_merged = '%s.merged.fq' % prefix
+                    output_merged = os.path.join(self.KEY_OUTPUT_PATH, output_merged)
+                    info = '%s: Merge paired-end sequence reads' % prefix
+
+                    params = {'r1': fastq_r1_file,
+                              'r2': fastq_r2_file,
+                              'output': output_merged,
+                              'relabel': '%s.' % prefix}
+
+                    self.run_vsearch(params, step = 'fastq_mergepairs', extra_info = info)
+
+                    #################################################################################
+                    # [Merged] Checking the quality of the reads
+                    #################################################################################
+
+                    info = '%s: Checking the quality of the reads' % prefix
+                    params = {'input': output_merged}
+                    self.run_fastqc(params, extra_info = info)
+
         #################################################################################
         # Merge all samples into one fastq file
         #################################################################################
 
         output_merged = 'all_samples_merged.fq'
         output_merged = os.path.join(self.KEY_OUTPUT_PATH, output_merged)
-        info = 'Merge all samples into one fastq file'
 
-        params = {'input': ' '.join(arr_r1),
-                  'relabel': '@',
-                  'output': output_merged}
-
-        self.run_usearch(params, step = 'fastq_mergepairs', extra_info = info)
-
-        n_seqs = self.rename_head(output_merged, os.path.join(self.KEY_SAMPLES_PATH, ''), '')
+        n_seqs = self.run_merge_all(output_merged)
 
         #################################################################################
         # [Merged] Checking the quality of the reads
