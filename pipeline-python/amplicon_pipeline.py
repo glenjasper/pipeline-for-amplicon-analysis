@@ -49,7 +49,8 @@ class Pipeline:
         self.LOG_FILE = None
 
         # Utilities folder
-        self.UTILITIES_PATH = 'utilities'
+        self.BIN_PATH = 'bin'
+        self.UTIL_PATH = 'util'
 
         # Programs | Scripts
         self.PROGRAM_VSEARCH = None
@@ -67,7 +68,6 @@ class Pipeline:
 
         self.KEY_SAMPLES_PATH = None
         self.KEY_DATABASE_PATH = None
-        self.KEY_UTIL_PATH = None
         self.KEY_OUTPUT_PATH = None
         self.KEY_PRIMERS_FILE = None
         self.KEY_DATABASE_TYPE = None
@@ -200,7 +200,6 @@ class Pipeline:
 
         self.KEY_SAMPLES_PATH = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_SAMPLES_PATH)
         self.KEY_DATABASE_PATH = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_DATABASE_PATH)
-        self.KEY_UTIL_PATH = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_UTIL_PATH)
         self.KEY_OUTPUT_PATH = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_OUTPUT_PATH)
         self.KEY_DATABASE_TYPE = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_DATABASE_TYPE)
         self.KEY_DATABASE_FASTA = self.read_settings(self.SETTINGS_FILE, self.SECTION_PARAMETERS, self.PARAMETER_DATABASE_FASTA)
@@ -266,15 +265,6 @@ class Pipeline:
         else:
             if not self.check_path(self.KEY_DATABASE_PATH):
                 self.show_print("[WARNING] Path '%s' of parameter '%s' doesn't exist" % (self.KEY_DATABASE_PATH, self.PARAMETER_DATABASE_PATH.lower()), showdate = False, font = self.YELLOW)
-                exit()
-
-        # Util path
-        if not self.KEY_UTIL_PATH:
-            self.show_print("[WARNING] Value of parameter '%s' not specified" % (self.PARAMETER_UTIL_PATH.lower()), showdate = False, font = self.YELLOW)
-            exit()
-        else:
-            if not self.check_path(self.KEY_UTIL_PATH):
-                self.show_print("[WARNING] Path '%s' of parameter '%s' doesn't exist" % (self.KEY_UTIL_PATH, self.PARAMETER_UTIL_PATH.lower()), showdate = False, font = self.YELLOW)
                 exit()
 
         # Database type
@@ -418,8 +408,10 @@ class Pipeline:
                     self.show_print("[WARNING] Value '%s' of parameter '%s' is not a positive number" % (self.KEY_SINTAX_CUTOFF, self.PARAMETER_SINTAX_CUTOFF.lower()), showdate = False, font = self.YELLOW)
                     exit()
 
-        self.UTILITIES_PATH = os.path.join(self.ROOT, self.UTILITIES_PATH)
-        self.UTILITIES_PATH = os.path.join(self.UTILITIES_PATH, self.KEY_PLATFORM_TYPE)
+        self.BIN_PATH = os.path.join(self.ROOT, self.BIN_PATH)
+        self.BIN_PATH = os.path.join(self.BIN_PATH, self.KEY_PLATFORM_TYPE)
+
+        self.UTIL_PATH = os.path.join(self.ROOT, self.UTIL_PATH)
 
         if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_GNULINUX:
             self.PROGRAM_VSEARCH = 'vsearch'
@@ -432,11 +424,12 @@ class Pipeline:
             self.PROGRAM_CUTADAPT = 'cutadapt.exe'
             self.PROGRAM_BLASTN = 'blastn.exe'
 
-        prog_vsearch = os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH)
-        prog_usearch = os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH)
-        prog_blastn = os.path.join(self.UTILITIES_PATH, self.PROGRAM_BLASTN)
+        prog_vsearch = os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH)
+        prog_usearch = os.path.join(self.BIN_PATH, self.PROGRAM_USEARCH)
+        prog_cutadapt = os.path.join(self.BIN_PATH, self.PROGRAM_CUTADAPT)
+        prog_blastn = os.path.join(self.BIN_PATH, self.PROGRAM_BLASTN)
 
-        fastqc_path = os.path.join(os.path.dirname(self.UTILITIES_PATH), 'common', 'FastQC')
+        fastqc_path = os.path.join(os.path.dirname(self.BIN_PATH), 'common', 'FastQC')
         prog_fastqc = os.path.join(fastqc_path, self.PROGRAM_FASTQC)
 
         if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_GNULINUX:
@@ -447,14 +440,21 @@ class Pipeline:
 
         self.check_version('%s --version' % prog_vsearch, self.PROGRAM_VSEARCH)
         self.check_version('%s --version' % prog_usearch, self.PROGRAM_USEARCH)
-        self.check_version('%s --version' % self.PROGRAM_CUTADAPT, self.PROGRAM_CUTADAPT)
 
         if self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_OTU:
             self.check_version('%s -version' % prog_blastn, self.PROGRAM_BLASTN)
 
         if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_GNULINUX:
+            # For Cutadapt
+            self.check_version('%s --version' % self.PROGRAM_CUTADAPT, self.PROGRAM_CUTADAPT)
+
+            # For FastQC
             self.check_version('%s --version' % prog_fastqc, self.PROGRAM_FASTQC)
         elif self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_WINDOWS:
+            # For Cutadapt
+            self.check_version('%s --version' % prog_cutadapt, self.PROGRAM_CUTADAPT)
+
+            # For FastQC
             jar1_path = os.path.join(fastqc_path, 'sam-1.103.jar')
             jar2_path = os.path.join(fastqc_path, 'jbzip2-0.9.jar')
             program_path_fqc = 'java -Xmx250m -Dfastqc.show_version=true -Djava.awt.headless=true -classpath %s;%s;%s uk.ac.babraham.FastQC.FastQCApplication' % (fastqc_path, jar1_path, jar2_path)
@@ -569,7 +569,7 @@ class Pipeline:
                 # reverse-primer
                 primer_rev = record.seq
 
-        arr_cmd = ['%s %s' % (self.KEY_PYTHON_VERSION, os.path.join(self.KEY_UTIL_PATH, self.PROGRAM_RC)),
+        arr_cmd = ['%s %s' % (self.KEY_PYTHON_VERSION, os.path.join(self.UTIL_PATH, self.PROGRAM_RC)),
                    '%s' % primer_rev]
 
         words = 'Reverse-complement'
@@ -585,7 +585,7 @@ class Pipeline:
         words = ''
         if self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_OTU:
             if step == 'fastq_mergepairs':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--fastq_mergepairs %s' % params['r1'],
                            '--reverse %s' % params['r2'],
                            '--threads %s' % self.KEY_THREADS,
@@ -594,7 +594,7 @@ class Pipeline:
 
                 words = 'Statistics of merged reads'
             elif step == 'fastq_filter':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--fastq_filter %s' % params['input'],
                            '--fastq_maxee %s' % params['fastq_maxee'],
                            '--fastq_minlen %s' % params['fastq_minlen'],
@@ -609,7 +609,7 @@ class Pipeline:
 
                 words = 'Reading input file 100%'
             elif step == 'derep_fulllength_all':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--derep_fulllength %s' % params['input'],
                            '--minuniquesize %s' % params['minuniquesize'],
                            '--output %s' % params['output'],
@@ -620,7 +620,7 @@ class Pipeline:
 
                 words = 'Writing FASTA output file 100%'
             elif step == 'cluster_size':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--cluster_size %s' % params['input'],
                            '--threads %s' % self.KEY_THREADS,
                            '--id %s' % params['id'],
@@ -633,7 +633,7 @@ class Pipeline:
 
                 words = 'Clustering 100%'
             elif step == 'uchime_denovo':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--uchime_denovo %s' % params['input'],
                            '--sizein',
                            '--sizeout',
@@ -642,7 +642,7 @@ class Pipeline:
 
                 words = 'Detecting chimeras 100%'
             elif step == 'uchime_ref':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--uchime_ref %s' % params['input'],
                            '--threads %s' % self.KEY_THREADS,
                            '--db %s' % params['db'],
@@ -653,7 +653,7 @@ class Pipeline:
 
                 words = 'Detecting chimeras 100%'
             elif step == 'cluster_size_otu_table':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--cluster_size %s' % params['input'],
                            '--threads %s' % self.KEY_THREADS,
                            '--id %s' % params['id'],
@@ -670,7 +670,7 @@ class Pipeline:
                 words = 'Clustering 100%'
         elif self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_ASV:
             if step == 'fastq_mergepairs':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--fastq_mergepairs %s' % params['r1'],
                            '--reverse %s' % params['r2'],
                            '--threads %s' % self.KEY_THREADS,
@@ -680,7 +680,7 @@ class Pipeline:
 
                 words = 'Statistics of merged reads'
             elif step == 'fastq_filter':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--fastq_filter %s' % params['input'],
                            '--fastq_maxee %s' % params['fastq_maxee'],
                            '--fastq_minlen %s' % params['fastq_minlen'],
@@ -695,7 +695,7 @@ class Pipeline:
 
                 words = 'Reading input file 100%'
             elif step == 'derep_fulllength':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--derep_fulllength %s' % params['input'],
                            '--strand %s' % params['strand'],
                            '--sizein',
@@ -706,7 +706,7 @@ class Pipeline:
 
                 words = 'Writing FASTA output file 100%'
             elif step == 'usearch_global':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_VSEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_VSEARCH),
                            '--usearch_global %s' % params['input'],
                            '--threads %s' % self.KEY_THREADS,
                            '--db %s' % params['db'],
@@ -725,14 +725,14 @@ class Pipeline:
         words = ''
         if self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_OTU:
             if step == 'fastx_subsample':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_USEARCH),
                            '-fastx_subsample %s' % params['input'],
                            '-sample_size %s' % params['sample_size'],
                            '-fastqout %s' % params['output']]
 
                 words = '100.0% Sampling'
             elif step == 'search_oligodb':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_USEARCH),
                            '-search_oligodb %s' % params['input'],
                            '-db %s' % params['db'],
                            '-strand %s' % params['strand'],
@@ -742,21 +742,21 @@ class Pipeline:
                 words = 'matched'
         elif self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_ASV:
             if step == 'fastq_mergepairs':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_USEARCH),
                            '-fastq_mergepairs %s' % params['input'], # Automatic R2 filename
                            '-fastqout %s' % params['output'],
                            '-relabel %s' % params['relabel']]
 
                 words = 'Totals:'
             elif step == 'fastx_subsample':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_USEARCH),
                            '-fastx_subsample %s' % params['input'],
                            '-sample_size %s' % params['sample_size'],
                            '-fastqout %s' % params['output']]
 
                 words = '100.0% Sampling'
             elif step == 'search_oligodb':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_USEARCH),
                            '-search_oligodb %s' % params['input'],
                            '-db %s' % params['db'],
                            '-strand %s' % params['strand'],
@@ -765,14 +765,14 @@ class Pipeline:
 
                 words = 'matched'
             elif step == 'unoise3':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_USEARCH),
                            '-unoise3 %s' % params['input'],
                            '-zotus %s' % params['output'],
                            '-tabbedout %s' % params['tabbedout']]
 
                 words = 'Writing zotus'
             elif step == 'sintax':
-                arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_USEARCH),
+                arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_USEARCH),
                            '-sintax %s' % params['input'],
                            '-db %s' % params['db'],
                            '-tabbedout %s' % params['output'],
@@ -790,7 +790,7 @@ class Pipeline:
         if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_GNULINUX:
             prog_cutadapt = self.PROGRAM_CUTADAPT
         elif self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_WINDOWS:
-            prog_cutadapt = os.path.join(self.UTILITIES_PATH, self.PROGRAM_CUTADAPT)
+            prog_cutadapt = os.path.join(self.BIN_PATH, self.PROGRAM_CUTADAPT)
 
         arr_cmd = []
         words = ''
@@ -817,7 +817,7 @@ class Pipeline:
                          extra_info = extra_info)
 
     def run_map(self, params, extra_info = None):
-        arr_cmd = ['%s %s' % (self.KEY_PYTHON_VERSION, os.path.join(self.KEY_UTIL_PATH, self.PROGRAM_MAP)),
+        arr_cmd = ['%s %s' % (self.KEY_PYTHON_VERSION, os.path.join(self.UTIL_PATH, self.PROGRAM_MAP)),
                    '%s' % params['fasta1'],
                    '%s' % params['uc'],
                    '%s' % params['fasta2'],
@@ -828,7 +828,7 @@ class Pipeline:
                                          extra_info = extra_info)
 
     def run_blastn(self, params, extra_info = None):
-        arr_cmd = ['%s' % os.path.join(self.UTILITIES_PATH, self.PROGRAM_BLASTN),
+        arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_BLASTN),
                    '-db %s' % params['db'],
                    '-query %s' % params['query'],
                    '-perc_identity %s' % params['perc_identity'],
@@ -846,7 +846,7 @@ class Pipeline:
         if self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_OTU:
             _program = self.PROGRAM_ABUNDANCE_TABLE_OTU
 
-            arr_cmd = ['%s %s' % (self.KEY_PYTHON_VERSION, os.path.join(self.KEY_UTIL_PATH, _program)),
+            arr_cmd = ['%s %s' % (self.KEY_PYTHON_VERSION, os.path.join(self.UTIL_PATH, _program)),
                        '%s' % params['db_type'],
                        '%s' % params['blast_file'],
                        '%s' % params['otutab_file'],
@@ -854,7 +854,7 @@ class Pipeline:
         elif self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_ASV:
             _program = self.PROGRAM_ABUNDANCE_TABLE_ASV
 
-            arr_cmd = ['%s %s' % (self.KEY_PYTHON_VERSION, os.path.join(self.KEY_UTIL_PATH, _program)),
+            arr_cmd = ['%s %s' % (self.KEY_PYTHON_VERSION, os.path.join(self.UTIL_PATH, _program)),
                        '%s' % params['asv_taxonomy'],
                        '%s' % params['asv_counts'],
                        '%s' % params['output']]
@@ -908,7 +908,7 @@ class Pipeline:
         return int(len(data_fr)/4)
 
     def run_fastqc(self, params, extra_info = None):
-        fastqc_path = os.path.join(os.path.dirname(self.UTILITIES_PATH), 'common', 'FastQC')
+        fastqc_path = os.path.join(os.path.dirname(self.BIN_PATH), 'common', 'FastQC')
 
         if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_WINDOWS:
             jar1_path = os.path.join(fastqc_path, 'sam-1.103.jar')
