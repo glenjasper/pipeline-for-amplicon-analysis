@@ -5,7 +5,6 @@ approach_type = asv
 # Paths
 samples_path = 
 database_path = 
-util_path = 
 output_path = 
 
 # Taxonomy database (files must be in database_path | database_type can be silva, rdp or unite | database_bin only for OTUs)
