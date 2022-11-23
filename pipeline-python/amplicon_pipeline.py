@@ -5,6 +5,7 @@ import re
 import sys
 import time
 import random
+import zipfile
 import argparse
 import traceback
 import subprocess
@@ -432,7 +433,32 @@ class Pipeline:
         fastqc_path = os.path.join(os.path.dirname(self.BIN_PATH), 'common', 'FastQC')
         prog_fastqc = os.path.join(fastqc_path, self.PROGRAM_FASTQC)
 
+        # Unzip
+        bin_zip_common = os.path.join(os.path.dirname(self.BIN_PATH), 'common.zip')
+        bin_zip_gnulinux = os.path.join(os.path.dirname(self.BIN_PATH), 'gnulinux.zip')
+        bin_zip_win = os.path.join(os.path.dirname(self.BIN_PATH), 'win.zip')
+        bin_unzip = os.path.dirname(self.BIN_PATH)
+
+        # Common
+        if self.check_path(bin_zip_common):
+            with zipfile.ZipFile(bin_zip_common, 'r') as fzip:
+                fzip.extractall(bin_unzip)
+            os.remove(bin_zip_common)
+
+        if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_WINDOWS:
+            # Windows
+            if self.check_path(bin_zip_win):
+                with zipfile.ZipFile(bin_zip_win, 'r') as fzip:
+                    fzip.extractall(bin_unzip)
+                os.remove(bin_zip_win)
+
         if self.KEY_PLATFORM_TYPE == self.PLATFORM_TYPE_GNULINUX:
+            # GNU/Linux
+            if self.check_path(bin_zip_gnulinux):
+                with zipfile.ZipFile(bin_zip_gnulinux, 'r') as fzip:
+                    fzip.extractall(bin_unzip)
+                os.remove(bin_zip_gnulinux)
+
             os.chmod(prog_vsearch, int('755', base = 8))
             os.chmod(prog_usearch, int('755', base = 8))
             os.chmod(prog_fastqc, int('755', base = 8))
