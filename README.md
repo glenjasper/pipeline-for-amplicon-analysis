@@ -18,7 +18,6 @@ _Pipeline_ para análise metagenômico de _amplicon_ 16S rRNA utilizando as abor
 - [Pipelines](#pipelines)
     - [Pipeline em Python 3](#pipeline-em-python-3)
         - [Arquivo de configuração](#arquivo-de-configuração)
-    - [Pipeline em Shell Script](#pipeline-em-shell-script)
 - [Como usar o pipeline](#como-usar-o-pipeline)
 - [Credits](#credits)
 - [Author](#author)
@@ -82,6 +81,7 @@ Para as análises estatísticas se precisam ter instalados:
   sudo pip3 install pandas
   sudo pip3 install biopython
   sudo pip3 install colorama
+  sudo pip3 install cutadapt # Only for GNU/Linux
 ```
 
 ### Bibliotecas R
@@ -107,7 +107,7 @@ Para as análises estatísticas se precisam ter instalados:
 
 ### _Pipeline_ em _Python 3_
 
-Se desenvolveu um _script_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Este _script_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. O _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/utilities** (arquivos: _common.zip_, _gnulinux.zip_ e _win.zip_), os quais devem ser descompactados pelo usuário. O usuário também precisa configurar os parâmetros do arquivo [**config.txt**](#arquivo-de-configuração).
+Se desenvolveu um _script_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Este _script_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. O _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/bin** (arquivos: _common.zip_, _gnulinux.zip_ e _win.zip_), os quais serão descompactados no primeiro uso do _Pipeline_. O usuário precisa configurar os parâmetros do arquivo [**config.txt**](#arquivo-de-configuração).
 
 #### _Pipeline_ para as abordagens de ASVs e OTUs
 - **pipeline-python/amplicon_pipeline.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs ou OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
@@ -125,7 +125,6 @@ O arquivo **config.txt** contém os parâmetros necessários para o funcionament
   # Paths
   samples_path = D:\my_workstation\amplicon\dataset
   database_path = D:\my_workstation\amplicon\database
-  util_path = D:\my_workstation\amplicon\util
   output_path = D:\my_workstation\amplicon\results-otu
 
   # Taxonomy database (files must be in database_path | database_type can be silva, rdp or unite | database_bin only for OTUs)
@@ -169,7 +168,6 @@ Descrição de parâmetros, que também se aplicam para os [_Shell Script_](#exe
 | **approach_type**     | Tipo de abotrdagem (ASV ou OTU). |
 | **samples_path**      | Caminho absoluto da pasta que contem os arquivos FASTQ. |
 | **database_path**     | Caminho absoluto da pasta que contem o banco de dados SILVA (FASTA e binários). |
-| **util_path**         | Caminho absoluto da pasta que contem os _scripts_ utilitários. |
 | **output_path**       | Caminho absoluto da pasta de saída. |
 | **database_type**     | Tipo de banco de dados taxonômico: **silva**, **rdp** e **unite**. |
 | **database_fasta**    | Nome do arquivo FASTA do banco de dados SILVA. |
@@ -194,60 +192,11 @@ CCTACGGGRSGCAGCAG
 GGACTACHVGGGTWTCTAAT
 ```
 
-### _Pipeline_ em _Shell Script_
-
-Se desenvolveram dois _scripts_ em _Shell Script_ para ambas as unidades de medidas (OTUs e ASVs). Estes _scripts_ podem ser utilizados apenas na plataforma **GNU/Linux** (ou Mac OS). Cada _script_ apresenta internamente parâmetros a serem configurados pelo usuário. 
-
-#### _Pipeline_ com abordagem de OTUs
-- **pipeline-shell/amplicon_pipeline_for_otu.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
-
-#### _Pipeline_ com abordagem de ASVs
-- **pipeline-shell/amplicon_pipeline_for_asv.sh**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
-
-#### Exemplo de configuração os parâmetros internos dos _scripts_:
-```sh
-  # Paths
-  samples_path=D:\my_workstation\amplicon\dataset
-  database_path=D:\my_workstation\amplicon\database
-  util_path=D:\my_workstation\amplicon\util
-  output_path=D:\my_workstation\amplicon\results-otu
-
-  # Taxonomy database (files must be in database_path | database_type can be silva, rdp or unite | database_bin only for OTUs)
-  database_type=silva
-  database_fasta=SILVA_138.1_SSURef_NR99_tax_silva.fasta
-  database_bin=silva_db
-
-  # Primers file (file must be in database_path)
-  primers_file=illumina.primers.fa
-
-  # Threads
-  threads=10
-
-  # For quality filtering (maxee default: 0.8 | filter_maxlen is optional)
-  filter_maxee=0.8
-  filter_minlen=350
-  filter_maxlen=
-
-  # For clustering (default: 97)
-  cluster_identity=97
-
-  # For taxonomic alignment (default: 97)
-  blast_identity=97
-
-  # High identity to count ASVs (default: 99)
-  high_identity_asv=99
-
-  # For taxonomic assignment (default: 0.8)
-  sintax_cutoff=0.8
-```
-
 > **Nota**: Os parâmetros **database_bin**, **cluster_identity** e **blast_identity** são utilizados apenas para a abordagem com OTUs. Os parâmetros **high_identity_asv** e **sintax_cutoff** são utilizados apenas para a abordagem com ASVs.
 
 ## Como usar o _pipeline_
 
-Para executar qualquer _pipeline_, primeiramente devem ser configurados os parâmetros do arquivo [config.txt](#arquivo-de-configuração-config.txt)
-
-- Executar o _pipeline_ em _Python 3_:
+Para executar o _pipeline_, primeiramente devem ser configurados os parâmetros do arquivo [config.txt](#arquivo-de-configuração-config.txt)
 
 Para ver a forma de usar (_help_)
 
@@ -270,12 +219,6 @@ Forma de executar:
 
 ```sh
   python3 amplicon_pipeline.py -c config.txt
-```
-
-- Executar o _pipeline_ em _Shell Script_:
-
-```sh
-  ./amplicon_pipeline_for_asv.sh
 ```
 
 ## Credits
