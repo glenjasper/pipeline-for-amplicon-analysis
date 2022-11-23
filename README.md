@@ -13,11 +13,9 @@ _Pipeline_ para análise metagenômico de _amplicon_ 16S rRNA utilizando as abor
 - [Pré-requisitos](#pré-requisitos)
     - [Programas](#programas)
     - [Bibliotecas Python](#bibliotecas-python)
-    - [Bibliotecas R](#bibliotecas-r)
 - [Scripts](#scripts)
-- [Pipelines](#pipelines)
-    - [Pipeline em Python 3](#pipeline-em-python-3)
-        - [Arquivo de configuração](#arquivo-de-configuração)
+- [Pipeline](#pipeline)
+    - [Arquivo de configuração](#arquivo-de-configuração)
 - [Como usar o pipeline](#como-usar-o-pipeline)
 - [Credits](#credits)
 - [Author](#author)
@@ -71,10 +69,6 @@ Os _pipelines_ precisam dos seguintes programas (ou linguagen de programação).
   - Para o correto funcionamento do FastQC préviamente precisa instalar o [JDK de JAVA](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)
 - [Python 3](https://www.python.org)
 
-Para as análises estatísticas se precisam ter instalados:
-- [R-4](https://cran.r-project.org)
-- [RStudio](https://www.rstudio.com/products/rstudio/download)
-
 ### Bibliotecas Python
 
 ```sh
@@ -84,16 +78,6 @@ Para as análises estatísticas se precisam ter instalados:
   sudo pip3 install cutadapt # Only for GNU/Linux
 ```
 
-### Bibliotecas R
-
-```sh
-  install.packages('ggplot2')
-  install.packages('heatmaply')
-  install.packages('dendextend')
-  install.packages('RColorBrewer')
-  install.packages('viridis')
-```
-
 ## _Scripts_
 
 - **util/map.py**: _Script_ para mapear leituras _non-singletons_ e _non-chimeras_ (adaptado de [map.pl](https://github.com/torognes/vsearch/wiki/VSEARCH-pipeline)).
@@ -101,13 +85,10 @@ Para as análises estatísticas se precisam ter instalados:
 - **util/reverse_complement.py**: _Script_ para obter a reversa-complementar de uma sequência (_forward-primer_).
 - **util/get_abundances_table_otu.py**: _Script_ para obter a tabela de abundâncias dos OTUs com dados taxonômicos.
 - **util/get_abundances_table_asv.py**: _Script_ para obter a tabela de abundâncias dos ASVs com dados taxonômicos.
-- **util/get_abundances_by_tax.py**: _Script_ para obter tabelas de dados para gerar _Heatmaps_, Diagramas de _Venn_ e Bar-plots.
 
-## _Pipelines_
+## _Pipeline_
 
-### _Pipeline_ em _Python 3_
-
-Se desenvolveu um _script_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Este _script_ podem ser utilizados tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. O _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/bin** (arquivos: _common.zip_, _gnulinux.zip_ e _win.zip_), os quais serão descompactados no primeiro uso do _Pipeline_. O usuário precisa configurar os parâmetros do arquivo [**config.txt**](#arquivo-de-configuração).
+Se desenvolveu um _script_ em _Python 3_ para ambas as unidades de medidas (OTUs e ASVs). Este _script_ pode ser utilizado tanto na plataforma **GNU/Linux** (ou Mac OS) quanto no **Windows**. O _script_ já têm incorporado os [programas](#programas) requeridos na pasta **pipeline-python/bin** (arquivos: _common.zip_, _gnulinux.zip_ e _win.zip_), os quais serão descompactados no primeiro uso do _Pipeline_. No entanto, o usuário precisa configurar os parâmetros do arquivo [**config.txt**](#arquivo-de-configuração).
 
 #### _Pipeline_ para as abordagens de ASVs e OTUs
 - **pipeline-python/amplicon_pipeline.py**: Fluxo (_pipeline_) para a geração de uma tabela de abundâncias de ASVs ou OTUs com dados taxonômicos utilizando o banco de dados SILVA, a partir de dados de sequenciamentos de _amplicon_ 16S rRNA.
