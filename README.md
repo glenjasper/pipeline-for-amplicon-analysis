@@ -6,7 +6,6 @@ _Pipeline_ para análise metagenômico de _amplicon_ 16S rRNA utilizando as abor
 
 ## Recursos
 
-- [Dados de treinamento](#dados-de-treinamento)
 - [Banco de dados SILVA](#banco-de-dados-silva)
     - [Baixar e criar os binários do banco de dados](#baixar-e-criar-os-binários-do-banco-de-dados)
     - [Formatação do banco de dados para uso de ASVs](#formatação-do-banco-de-dados-para-uso-de-asvs)
@@ -22,14 +21,10 @@ _Pipeline_ para análise metagenômico de _amplicon_ 16S rRNA utilizando as abor
 - [Organization](#organization)
 - [License](#license)
 
-## Dados de treinamento
-
-**training-files.zip**: Arquivos _pair-end_ FASTQ de treinamento. Neste treinamento utilizaremos dados de 4 tipo de amostras com suas réplicas biológicas que estão representados em 11 arquivos FASTQ pareados (3 x BRS, 3 x BPA, 3 x BANHT e 2 x ENV), podem ser baixados desde [aqui](https://drive.google.com/file/d/1cvn8NVWhU0C5dbOj9gWKsPrt9G58kbfR/view?usp=sharing).
-
 ## Banco de dados SILVA
 
 ### Baixar e criar os binários do banco de dados
-Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports). Pode baixar o arquivo FASTA e criar os binários com os seguintes comandos:
+Para análise 16S rRNA pode-se usar o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports). Pode baixar o arquivo FASTA e criar os binários com os seguintes comandos:
 
 ```sh
   wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
@@ -40,18 +35,8 @@ Usaremos o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/d
               -out silva_db
 ```
 
-> **NOTA**: Para o treinamento podemos usar uma versão _small_ do banco de dados. Pode baixá-lo desde [aqui](https://drive.google.com/file/d/1N7PL1VVn6xOyYA2DVkwvs2Nkxh2Dio13/view?usp=sharing) ou criá-lo com o seguintes comandos: 
-
-```sh
-  sed -n 1,1500032p SILVA_138.1_SSURef_NR99_tax_silva.fasta > SILVA_138.1_SSURef_NR99_tax_silva_small.fasta
-
-  makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva_small.fasta \
-              -dbtype nucl \
-              -out silva_db_small
-```
-
 ### Formatação do banco de dados para uso de ASVs
-O banco de dados SILVA não pode ser utilizado diretamente no _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma. Se estiver utilizando a versão _small_ do banco de dados, também deve ser formatado.
+O banco de dados SILVA não pode ser utilizado diretamente no _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma.
 
 ```sh
   python3 rename_silva.py SILVA_138.1_SSURef_NR99_tax_silva.fasta
