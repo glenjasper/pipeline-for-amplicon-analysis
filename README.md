@@ -45,7 +45,7 @@ O banco de dados SILVA não pode ser utilizado diretamente no _pipeline_ com ASV
 ## Pré-requisitos
 
 ### Programas
-Os _pipelines_ precisam dos seguintes programas (ou linguagen de programação). Para o [_pipeline_ em _Shell Script_](#pipeline-em-shell-script) estes requerimentos necessáriamente tem que estar instalados, no entanto, se utilizar o [_pipeline_ em _Python 3_](#pipeline-em-python-3), estes requerimentos já estão inclusos no código fonte (pasta **pipeline-python/utilities**).
+O _pipeline_ precisa dos seguintes requisitos que estão inclusos no código fonte (pasta **pipeline-python/bin**).
 - [VSEARCH](https://github.com/torognes/vsearch)
 - [USEARCH 32-bit](https://drive5.com/usearch)
 - [NCBI BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
