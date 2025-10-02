@@ -252,7 +252,7 @@ class Pipeline:
                 are_there_files = False
                 for subdir, dirs, files in os.walk(self.KEY_SAMPLES_PATH):
                     for file in files:
-                        if re.search('[_][Rr][1][_]?(\w|[-])*\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
+                        if re.search(r'_R1_?[\w-]*\.(fastq|fq)(\.gz)?$', file, re.IGNORECASE):
                             are_there_files = True
                             break
                 if not are_there_files:
@@ -345,7 +345,7 @@ class Pipeline:
             self.show_print("[WARNING] Value of parameter '%s' not specified" % (self.PARAMETER_FILTER_MAXEE.lower()), showdate = False, font = self.YELLOW)
             exit()
         else:
-            if (not re.match('^\d+(?:\.\d+)?$', self.KEY_FILTER_MAXEE)) or (float(self.KEY_FILTER_MAXEE) == 0):
+            if (not re.match(r'^\d+(?:\.\d+)?$', self.KEY_FILTER_MAXEE)) or (float(self.KEY_FILTER_MAXEE) == 0):
                 self.show_print("[WARNING] Value '%s' of parameter '%s' is not a positive number" % (self.KEY_FILTER_MAXEE, self.PARAMETER_FILTER_MAXEE.lower()), showdate = False, font = self.YELLOW)
                 exit()
 
@@ -374,7 +374,7 @@ class Pipeline:
                 self.show_print("[WARNING] Value of parameter '%s' not specified" % (self.PARAMETER_CLUSTER_ID.lower()), showdate = False, font = self.YELLOW)
                 exit()
             else:
-                if (not re.match('^\d+(?:\.\d+)?$', self.KEY_CLUSTER_ID)) or (float(self.KEY_CLUSTER_ID) == 0):
+                if (not re.match(r'^\d+(?:\.\d+)?$', self.KEY_CLUSTER_ID)) or (float(self.KEY_CLUSTER_ID) == 0):
                     self.show_print("[WARNING] Value '%s' of parameter '%s' is not a positive number" % (self.KEY_CLUSTER_ID, self.PARAMETER_CLUSTER_ID.lower()), showdate = False, font = self.YELLOW)
                     exit()
                 else:
@@ -385,7 +385,7 @@ class Pipeline:
                 self.show_print("[WARNING] Value of parameter '%s' not specified" % (self.PARAMETER_BLAST_ID.lower()), showdate = False, font = self.YELLOW)
                 exit()
             else:
-                if (not re.match('^\d+(?:\.\d+)?$', self.KEY_BLAST_ID)) or (float(self.KEY_BLAST_ID) == 0):
+                if (not re.match(r'^\d+(?:\.\d+)?$', self.KEY_BLAST_ID)) or (float(self.KEY_BLAST_ID) == 0):
                     self.show_print("[WARNING] Value '%s' of parameter '%s' is not a positive number" % (self.KEY_BLAST_ID, self.PARAMETER_BLAST_ID.lower()), showdate = False, font = self.YELLOW)
                     exit()
         elif self.KEY_APPROACH_TYPE == self.APPROACH_TYPE_ASV:
@@ -394,7 +394,7 @@ class Pipeline:
                 self.show_print("[WARNING] Value of parameter '%s' not specified" % (self.PARAMETER_HIGH_IDENTITY_ASV.lower()), showdate = False, font = self.YELLOW)
                 exit()
             else:
-                if (not re.match('^\d+(?:\.\d+)?$', self.KEY_HIGH_IDENTITY_ASV)) or (float(self.KEY_HIGH_IDENTITY_ASV) == 0):
+                if (not re.match(r'^\d+(?:\.\d+)?$', self.KEY_HIGH_IDENTITY_ASV)) or (float(self.KEY_HIGH_IDENTITY_ASV) == 0):
                     self.show_print("[WARNING] Value '%s' of parameter '%s' is not a positive number" % (self.KEY_HIGH_IDENTITY_ASV, self.PARAMETER_HIGH_IDENTITY_ASV.lower()), showdate = False, font = self.YELLOW)
                     exit()
                 else:
@@ -405,7 +405,7 @@ class Pipeline:
                 self.show_print("[WARNING] Value of parameter '%s' not specified" % (self.PARAMETER_SINTAX_CUTOFF.lower()), showdate = False, font = self.YELLOW)
                 exit()
             else:
-                if (not re.match('^\d+(?:\.\d+)?$', self.KEY_SINTAX_CUTOFF)) or (float(self.KEY_SINTAX_CUTOFF) == 0):
+                if (not re.match(r'^\d+(?:\.\d+)?$', self.KEY_SINTAX_CUTOFF)) or (float(self.KEY_SINTAX_CUTOFF) == 0):
                     self.show_print("[WARNING] Value '%s' of parameter '%s' is not a positive number" % (self.KEY_SINTAX_CUTOFF, self.PARAMETER_SINTAX_CUTOFF.lower()), showdate = False, font = self.YELLOW)
                     exit()
 
@@ -849,9 +849,9 @@ class Pipeline:
                    '%s' % params['fasta2'],
                    '%s' % params['output']]
 
-        primer_rev_rc = self.run_program(program = self.PROGRAM_MAP,
-                                         command = arr_cmd,
-                                         extra_info = extra_info)
+        self.run_program(program = self.PROGRAM_MAP,
+                         command = arr_cmd,
+                         extra_info = extra_info)
 
     def run_blastn(self, params, extra_info = None):
         arr_cmd = ['%s' % os.path.join(self.BIN_PATH, self.PROGRAM_BLASTN),
@@ -865,6 +865,13 @@ class Pipeline:
         self.run_program(program = self.PROGRAM_BLASTN,
                          command = arr_cmd,
                          extra_info = extra_info)
+
+        file_size = os.stat(params['out']).st_size
+        if (file_size == 0):
+            war_msg = "[WARNING] File '%s' is empty" % params['out']
+            self.show_print(war_msg, [self.LOG_FILE], font = self.YELLOW)
+            self.show_print("", [self.LOG_FILE])
+            raise ValueError(war_msg)
 
     def run_get_abundances_table(self, params, extra_info = None):
         arr_cmd = []
@@ -885,9 +892,9 @@ class Pipeline:
                        '%s' % params['asv_counts'],
                        '%s' % params['output']]
 
-        primer_rev_rc = self.run_program(program = _program,
-                                         command = arr_cmd,
-                                         extra_info = extra_info)
+        self.run_program(program = _program,
+                         command = arr_cmd,
+                         extra_info = extra_info)
 
     def run_merge_all(self, output_file, prefix = None):
         self.show_print("---------------------------------------------------------------------------------", [self.LOG_FILE], font = self.IGREEN)
@@ -983,7 +990,7 @@ class Pipeline:
 
         for subdir, dirs, files in os.walk(self.KEY_SAMPLES_PATH):
             for file in files:
-                if re.search('[_][Rr][1][_]?(\w|[-])*\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
+                if re.search(r'_R1_?[\w-]*\.(fastq|fq)(\.gz)?$', file, re.IGNORECASE):
                     fastq_r1_file = os.path.join(subdir, file)
                     fastq_r2_file = file.replace('_R1', '_R2')
                     fastq_r2_file = os.path.join(subdir, fastq_r2_file)
@@ -1082,6 +1089,14 @@ class Pipeline:
                               'output': output_trimmed_prev}
 
                     self.run_cutadapt(params, step = 'reverse', extra_info = info)
+
+                    #################################################################################
+                    # [Trimmed] Checking the quality of the reads
+                    #################################################################################
+
+                    info = '%s: Checking the quality of the reads' % prefix
+                    params = {'input': output_trimmed_prev}
+                    self.run_fastqc(params, extra_info = info)
 
                     #################################################################################
                     # Quality filtering
@@ -1313,7 +1328,7 @@ class Pipeline:
 
         for subdir, dirs, files in os.walk(self.KEY_SAMPLES_PATH):
             for file in files:
-                if re.search('[_][Rr][1][_]?(\w|[-])*\.([Ff][Aa][Ss][Tt][Qq]|[Ff][Qq])$', file):
+                if re.search(r'_R1_?[\w-]*\.(fastq|fq)(\.gz)?$', file, re.IGNORECASE):
                     fastq_r1_file = os.path.join(subdir, file)
                     fastq_r2_file = file.replace('_R1', '_R2')
                     fastq_r2_file = os.path.join(subdir, fastq_r2_file)
@@ -1429,6 +1444,14 @@ class Pipeline:
                   'output': output_trimmed_prev}
 
         self.run_cutadapt(params, step = 'reverse', extra_info = info)
+
+        #################################################################################
+        # [Trimmed] Checking the quality of the reads
+        #################################################################################
+
+        info = '[Trimmed] Checking the quality of the reads'
+        params = {'input': output_trimmed_prev}
+        self.run_fastqc(params, extra_info = info)
 
         #################################################################################
         # Quality filtering
