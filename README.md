@@ -8,7 +8,7 @@ _Pipeline_ para análise metagenômico de _amplicon_ 16S rRNA utilizando as abor
 
 - [Banco de dados SILVA](#banco-de-dados-silva)
     - [Baixar e criar os binários do banco de dados](#baixar-e-criar-os-binários-do-banco-de-dados)
-    - [Formatação do banco de dados para uso de ASVs](#formatação-do-banco-de-dados-para-uso-de-asvs)
+    - [Formatação do bancos de dados para uso de ASVs](#formatação-do-bancos-de-dados-para-uso-de-asvs)
 - [Pré-requisitos](#pré-requisitos)
     - [Programas](#programas)
     - [Bibliotecas Python](#bibliotecas-python)
@@ -36,11 +36,15 @@ Para análise 16S rRNA pode-se usar o banco de dados [SILVA 138 SSU NR](https://
               -out silva_db
 ```
 
-### Formatação do banco de dados para uso de ASVs
-O banco de dados SILVA não pode ser utilizado diretamente no _pipeline_ com ASVs, entretanto pode ser formatado com o script _rename_silva.py_, da seguinte forma.
+### Formatação do bancos de dados para uso de ASVs
+Os bancos de dados SILVA e UNITE não podem ser utilizados diretamente no _pipeline_ na análise com ASVs, entretanto podem ser formatados com o script _rename_database.py_, da seguinte forma.
 
 ```sh
-  python3 rename_silva.py SILVA_138.1_SSURef_NR99_tax_silva.fasta
+  # SILVA database
+  python3 rename_database.py silva SILVA_138.1_SSURef_NR99_tax_silva.fasta
+
+  # UNITE databse
+  python3 rename_database.py unite uchime_reference_dataset_untrimmed_28.06.2017.fasta
 ```
 
 ## Pré-requisitos
