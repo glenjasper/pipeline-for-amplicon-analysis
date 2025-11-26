@@ -28,7 +28,7 @@ _Pipeline_ para análise metagenômico de _amplicon_ 16S rRNA utilizando as abor
 Para análise 16S rRNA pode-se usar o banco de dados [SILVA 138 SSU NR](https://www.arb-silva.de/no_cache/download/archive/current/Exports). Pode baixar o arquivo FASTA e criar os binários com os seguintes comandos:
 
 ```sh
-  wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
+  wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.2_SSURef_NR99_tax_silva.fasta.gz
   gzip -d SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
 
   makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva.fasta \
