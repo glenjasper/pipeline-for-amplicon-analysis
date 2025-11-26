@@ -29,9 +29,9 @@ Para análise 16S rRNA pode-se usar o banco de dados [SILVA 138 SSU NR](https://
 
 ```sh
   wget https://www.arb-silva.de/fileadmin/silva_databases/current/Exports/SILVA_138.2_SSURef_NR99_tax_silva.fasta.gz
-  gzip -d SILVA_138.1_SSURef_NR99_tax_silva.fasta.gz
+  gzip -d SILVA_138.2_SSURef_NR99_tax_silva.fasta.gz
 
-  makeblastdb -in SILVA_138.1_SSURef_NR99_tax_silva.fasta \
+  makeblastdb -in SILVA_138.2_SSURef_NR99_tax_silva.fasta \
               -dbtype nucl \
               -out silva_db
 ```
@@ -41,7 +41,7 @@ Os bancos de dados SILVA e UNITE não podem ser utilizados diretamente no _pipel
 
 ```sh
   # SILVA database
-  python3 rename_database.py silva SILVA_138.1_SSURef_NR99_tax_silva.fasta
+  python3 rename_database.py silva SILVA_138.2_SSURef_NR99_tax_silva.fasta
 
   # UNITE databse
   python3 rename_database.py unite uchime_reference_dataset_untrimmed_28.06.2017.fasta
@@ -100,7 +100,7 @@ O arquivo **config.txt** contém os parâmetros necessários para o funcionament
 
   # Taxonomy database (files must be in database_path | database_type can be silva, rdp or unite | database_bin only for OTUs)
   database_type = silva
-  database_fasta = SILVA_138.1_SSURef_NR99_tax_silva.fasta
+  database_fasta = SILVA_138.2_SSURef_NR99_tax_silva.fasta
   database_bin = silva_db
 
   # Primers file (file must be in database_path)
